@@ -1,0 +1,1046 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+<title>FESTIGOL V37 — Planilla Oficial</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#eef3f5;color:#10232d}
+.app{max-width:900px;margin:auto;background:#eef3f5;min-height:100vh}
+header{background:linear-gradient(135deg,#062c43,#087a48);color:white;padding:18px}
+.logo{font-size:30px;font-weight:900}.sub{opacity:.85;margin-top:4px}
+nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px;background:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0002}
+nav button{flex:1;border:0;border-radius:10px;padding:12px 9px;background:#e5ecef;font-weight:800;cursor:pointer}
+nav button.active{background:#07964a;color:white}.backbar{display:none;padding:10px 14px 0;background:#fff}.backbar.show{display:block}.back-btn{border:0;border-radius:10px;padding:10px 16px;background:#07334b;color:#fff;font-weight:900;cursor:pointer;box-shadow:0 2px 7px #0002}.back-btn:active{transform:scale(.98)}
+main{padding:14px}.page{display:none}.page.active{display:block}
+.hero{background:linear-gradient(135deg,#07324b,#0a9950);color:white;border-radius:18px;padding:28px 20px;margin-bottom:14px}
+.hero h1{font-size:36px;margin:0 0 6px}.hero p{margin:0}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.card-entry-list{margin-top:10px}.card-entry{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:9px 0;border-top:1px solid #e3e9ec}.card-entry:first-child{border-top:0}.card-entry .card-number{grid-column:1/-1;font-weight:900;color:#173f50}.card-entry input,.card-entry select{width:100%}@media(max-width:650px){.card-entry{grid-template-columns:1fr}}
+
+.card{background:white;border-radius:14px;padding:16px;box-shadow:0 2px 9px #0001;margin-bottom:12px}
+.big{font-size:25px;font-weight:900;margin-top:7px}
+.tablebox{overflow-x:auto;background:white;border-radius:14px;box-shadow:0 2px 9px #0001}
+table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:10px 7px;border-bottom:1px solid #e3e9ec;text-align:center}th{background:#08334b;color:white}td:nth-child(2),th:nth-child(2){text-align:left}.pos{font-weight:900}.leaderrow{background:#eaf8f0;font-weight:800}
+.match{background:white;border-radius:14px;padding:15px;margin:9px 0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;box-shadow:0 2px 8px #0001}.team{text-align:center;font-weight:800}.score{font-size:21px;font-weight:900;background:#07334b;color:white;padding:8px 12px;border-radius:9px}
+.fixture-match{width:100%;border:0;text-align:inherit;cursor:pointer;position:relative;transition:.15s transform,.15s box-shadow}.fixture-match:hover{transform:translateY(-1px);box-shadow:0 5px 14px #0002}.fixture-match:active{transform:scale(.995)}.fixture-date{grid-column:1/-1;text-align:center;font-size:12px;font-weight:900;color:#0b5d78;margin-bottom:2px}.fixture-open{grid-column:1/-1;background:#e9f7ef;color:#087a48;border-radius:8px;padding:7px;text-align:center;font-size:11px;font-weight:900}.fixture-match.played .fixture-open{background:#e8eef2;color:#31505f}.fixture-planilla-info{display:flex;align-items:center;gap:14px;background:#f4f8fa;border:1px solid #dce6ea;border-radius:14px;padding:14px;margin-bottom:10px}.fixture-planilla-icon{font-size:34px;background:#07334b;color:#fff;border-radius:12px;padding:8px 11px}.fixture-planilla-info h3{margin:0 0 4px;color:#07334b}
+.fixture-actions{grid-column:1/-1;background:#f4f8fa;border:1px solid #dbe6ea;border-radius:12px;padding:10px;margin-top:2px;text-align:center}.fixture-actions-title{font-size:12px;font-weight:900;color:#083b4d;margin-bottom:4px}.fixture-actions .small-btn{width:100%;margin:4px 0 0}
+.tabs{display:flex;gap:8px;margin:10px 0}.tabs button{border:0;border-radius:9px;padding:10px 15px;font-weight:800;background:#d9e5e9}.tabs button.active{background:#07964a;color:white}
+form{background:white;border-radius:14px;padding:16px;box-shadow:0 2px 9px #0001;display:grid;gap:10px}label{font-weight:800}select,input{width:100%;padding:12px;border:1px solid #ccd7dc;border-radius:9px;font-size:16px}.action{border:0;border-radius:10px;padding:13px;background:#07964a;color:white;font-weight:900;font-size:16px}.register-action{--progress:0%;position:relative;overflow:hidden;background:linear-gradient(to right,#0aa56a 0%,#0aa56a var(--progress),#07964a var(--progress),#07964a 100%);transition:background .12s linear}.register-action::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.22) 45%,transparent 60%);transform:translateX(-100%);opacity:0}.register-action.progressing::after{opacity:1;animation:registerShine 1s linear infinite}.register-action.registered{background:#087a48;box-shadow:0 0 0 3px rgba(10,165,106,.18)}.register-action:disabled{opacity:1;cursor:default}@keyframes registerShine{to{transform:translateX(100%)}}.wa{background:#18a957}.gray{background:#66737b}.note{color:#56666f;font-size:14px}.registration-success{background:#e8f7ee;border:2px solid #07964a;color:#075b32;border-radius:12px;padding:14px;margin:12px 0;font-size:16px}.whatsapp-panel{background:#fff;border-radius:14px;padding:18px;margin-top:14px;box-shadow:0 2px 9px #0001}.whatsapp-panel h2{margin:0 0 8px}.whatsapp-panel .wa-note{margin:0 0 14px;color:#56666f;font-size:14px}.wa-send{display:block;width:100%;border:0;border-radius:10px;padding:14px;margin:9px 0;background:#18a957;color:#fff;font-weight:900;font-size:16px;cursor:pointer}.wa-send:active{transform:scale(.99)}
+@media(max-width:650px){.cards{grid-template-columns:repeat(2,1fr)}nav button{flex:1 1 30%;font-size:12px}.logo{font-size:25px}.match{font-size:14px}}
+
+.tournament-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tournament-card{background:white;border-radius:14px;padding:16px;box-shadow:0 2px 9px #0001}
+.tournament-card.current{border:3px solid #07964a}
+.tournament-card h3{margin:0 0 6px}.tournament-tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}.tournament-tools-grid .small-btn{margin:0;min-height:46px}@media(max-width:650px){.tournament-tools-grid{grid-template-columns:repeat(2,1fr)}}
+.badge{display:inline-block;background:#e8f7ee;color:#087a48;border-radius:999px;padding:5px 9px;font-weight:800;font-size:12px}
+.small-btn{border:0;border-radius:9px;padding:10px 12px;background:#07964a;color:white;font-weight:800;cursor:pointer;margin:4px 4px 0 0}
+.small-btn.gray{background:#66737b}
+.admin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.inline-form{background:white;border-radius:14px;padding:14px;box-shadow:0 2px 9px #0001}
+.inline-form h3{margin-top:0}
+@media(max-width:650px){.tournament-grid,.admin-grid{grid-template-columns:1fr}}
+.crest{width:32px;height:32px;object-fit:contain;vertical-align:middle;margin-right:8px;border-radius:6px;background:transparent}
+.team-line{display:flex;align-items:center;gap:8px}.team-line .crest{margin-right:0}
+.crest-placeholder{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:22px}
+.team-admin{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #e3e9ec;flex-wrap:wrap}
+.team-admin:last-child{border-bottom:0}.team-admin-name{font-weight:900;min-width:150px;flex:1}
+.crest-upload{font-size:13px;max-width:210px}.remove-crest{border:0;border-radius:8px;padding:7px 9px;background:#66737b;color:#fff;font-weight:800;cursor:pointer}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}
+.modal.show{display:flex}.modal-box{background:white;border-radius:18px;padding:20px;width:min(480px,100%);box-shadow:0 10px 35px #0005}.modal-box h2{margin-top:0}.modal-box input{margin:8px 0 12px}.modal-actions{display:flex;gap:8px}.modal-actions button{flex:1}
+
+.proof-box{margin:14px 0;padding:14px;border:1px dashed #6b7280;border-radius:14px;background:rgba(255,255,255,.04)}
+.proof-box h3{margin:0 0 6px}.proof-box input[type=file]{width:100%;padding:10px}.proof-preview{margin-top:10px;display:none}.proof-preview img{max-width:100%;max-height:280px;border-radius:10px;display:block;margin:auto}
+.proof-badge{display:inline-block;margin-top:8px;padding:4px 8px;border-radius:999px;background:#e8f7ee;color:#17663a;font-size:12px;font-weight:700}
+.match-details{grid-column:1/-1;margin-top:4px;padding-top:10px;border-top:1px solid #e5ecef;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;font-size:13px;color:#41515a}.match-detail{background:#f5f8f9;border-radius:9px;padding:8px;text-align:center}.match-detail b{display:block;color:#10232d;font-size:12px;margin-bottom:2px}.match-cards{grid-column:1/-1;background:#fff7df;border-radius:10px;padding:9px;font-size:13px}.goal-side-title{font-weight:900;color:#0d4c64;margin:10px 0 6px}.goal-entry{display:grid;grid-template-columns:90px 1fr;gap:8px;align-items:end;padding:7px 0;border-top:1px solid #e3e9ec}.goal-number{font-weight:900;color:#173f50}.goal-entry input{width:100%}.match-goals{grid-column:1/-1;background:#e9f7ef;border-radius:10px;padding:9px;font-size:13px}.match-goals b{color:#17623e}.match-cards b{color:#6d5100}.no-cards{grid-column:1/-1;color:#587078;font-size:12px;text-align:center}.card-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:end;padding:9px 0;border-top:1px solid #e3e9ec}.card-row:first-of-type{border-top:0}.card-remove{border:0;border-radius:8px;padding:10px;background:#66737b;color:#fff;font-weight:800;cursor:pointer}@media(max-width:650px){.match-details{grid-template-columns:1fr 1fr}.card-row{grid-template-columns:1fr 1fr}.card-row .card-remove{grid-column:1/-1}.goal-entry{grid-template-columns:1fr}}
+
+/* ===== ESCARAPELA DE ACREDITACION 9x12 cm ===== */
+.badge-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.badge-btn{background:#0b5d78;color:#fff;border:0;border-radius:10px;padding:10px 12px;font-weight:800;cursor:pointer}
+.badge-btn:disabled{opacity:.45;cursor:not-allowed}
+.badge-preview{margin-top:10px;background:#f4f7f8;border-radius:12px;padding:10px;text-align:center}
+.badge-preview img{width:min(270px,100%);height:auto;border-radius:8px;box-shadow:0 8px 22px rgba(0,0,0,.14)}
+.badge-note{font-size:.82rem;color:#47616b;margin-top:6px}
+
+.image-status{margin-top:8px;padding:9px 11px;background:#f2f7f8;border-radius:10px;color:#355862;font-size:.82rem;line-height:1.7}
+.image-status div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.saved-flash{box-shadow:0 0 0 2px #0aa56a inset}
+.badge-team-group{border-top:1px solid #e3e9ec;padding:12px 0}.badge-team-group:first-child{border-top:0}.saved-badge-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px;background:#f7fafb;border-radius:10px;margin:7px 0}
+
+.badge-auto-status{cursor:default;text-align:center;opacity:.72;transition:.25s ease}
+.badge-auto-status.ready{opacity:1;box-shadow:0 0 0 2px rgba(10,165,106,.18);transform:translateY(-1px)}
+.badge-actions{display:grid;gap:8px}.badge-preview-action{width:100%;cursor:pointer}.badge-preview-action:disabled{opacity:.45;cursor:not-allowed}.badge-preview-modal{position:fixed;inset:0;background:rgba(4,18,28,.78);display:none;align-items:center;justify-content:center;padding:16px;z-index:9999;backdrop-filter:blur(4px)}.badge-preview-modal.open{display:flex}.badge-preview-dialog{width:min(94vw,620px);max-height:94vh;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.35);display:flex;flex-direction:column}.badge-preview-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#083b4d;color:#fff}.badge-preview-head strong{display:block;font-size:17px}.badge-preview-head span{display:block;font-size:13px;opacity:.82;margin-top:3px}.modal-close{border:0;background:rgba(255,255,255,.12);color:#fff;width:38px;height:38px;border-radius:50%;font-size:20px;cursor:pointer}.badge-preview-body{padding:14px;background:#edf2f4;display:flex;justify-content:center;align-items:center;overflow:auto}.badge-preview-body img{display:block;width:auto;height:min(70vh,720px);max-width:88vw;object-fit:contain;box-shadow:0 12px 32px rgba(0,0,0,.22);background:#fff}.badge-preview-footer{padding:12px 16px;display:flex;gap:10px;align-items:center;justify-content:space-between;font-size:12px;color:#536871}.badge-preview-footer .primary{border:0;border-radius:10px;padding:10px 16px;background:#0aa56a;color:#fff;font-weight:800}.modal-open{overflow:hidden}@media(max-width:520px){.badge-preview-dialog{width:96vw}.badge-preview-body img{height:64vh}.badge-preview-footer{align-items:stretch;flex-direction:column}.badge-preview-footer .primary{width:100%}}
+ .match-sheet-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.match-sheet-team{background:white;border-radius:14px;padding:14px;box-shadow:0 2px 9px #0001}.match-sheet-team h3{margin:0 0 8px;color:#083b4d}.sheet-player{display:flex;align-items:center;gap:9px;padding:8px 4px;border-top:1px solid #e3e9ec}.sheet-player:first-of-type{border-top:0}.sheet-player input{width:20px;height:20px}.sheet-player .num{font-weight:900;width:28px}.sheet-player .name{font-weight:700;flex:1}.sheet-count{font-weight:900;color:#07964a;margin-top:10px}@media(max-width:650px){.match-sheet-grid{grid-template-columns:1fr}}
+
+.match-selector-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.registered-teams-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.registered-team-card{border:1px solid #d7e2e7;background:#fff;border-radius:14px;padding:14px;cursor:pointer;box-shadow:0 2px 8px #0001;text-align:left}.registered-team-card:hover{transform:translateY(-1px)}.registered-team-card h3{margin:0 0 5px;color:#07334b}.registered-team-meta{color:#64757d;font-size:13px}.registered-team-crest{font-size:30px}.registered-players-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.registered-player-card{background:#fff;border-radius:14px;padding:10px;border:1px solid #dbe4e8;box-shadow:0 2px 7px #0001}.registered-player-photo{width:100%;aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:#edf3f5;display:flex;align-items:center;justify-content:center;font-size:42px;color:#7b8c94}.registered-player-photo img{width:100%;height:100%;object-fit:cover}.registered-player-card b{display:block;margin-top:8px;color:#07334b}.registered-player-meta{font-size:12px;color:#65767d;margin-top:3px}.scheduled-row{padding:12px;background:#f7fafb;border:1px solid #dce5e9;border-radius:12px;margin:8px 0}.scheduled-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}@media(max-width:650px){.registered-teams-grid{grid-template-columns:1fr}.registered-players-grid{grid-template-columns:repeat(2,1fr)}}
+.match-sheet-team{background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 9px #0001}.match-sheet-team.red{border-top:5px solid #d92d2d}.match-sheet-team.white{border-top:5px solid #9aa5ab}.sheet-player{display:flex;align-items:center;gap:9px;padding:8px 4px;border-top:1px solid #e3e9ec;cursor:pointer}.sheet-player input{width:20px;height:20px}.sheet-player .num{font-weight:900;width:28px}.sheet-player .name{font-weight:700;flex:1}.sheet-status{background:#f4f8fa;border-radius:10px;padding:10px;margin:8px 0;font-size:13px}.sheet-count{font-weight:900;color:#07964a;margin-top:10px}.starting-badge{background:#e8f7ee;color:#087a48;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:900}.match-live{background:#07334b;color:#fff;border-radius:16px;padding:15px;margin-top:12px}.live-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}.live-team{text-align:center;font-weight:900}.live-score{font-size:30px;font-weight:900}.live-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.live-actions button{border:0;border-radius:10px;padding:12px 8px;font-weight:900;cursor:pointer}.btn-change{background:#f3a712}.btn-yellow{background:#f6d365}.btn-red{background:#d92d2d;color:#fff}.btn-goal{background:#18a957;color:#fff}.event-list{margin-top:12px;background:#fff;color:#10232d;border-radius:12px;padding:10px}.event-row{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid #e3e9ec}.event-row:first-child{border-top:0}.event-tag{font-weight:900}.finish-box{margin-top:12px;background:#e9f7ef;border:2px solid #07964a;border-radius:14px;padding:14px}.finish-box h3{margin-top:0}.final-score{font-size:30px;font-weight:900;text-align:center;margin:8px 0}.pdf-btn{background:#0b5d78}.modal-list{max-height:55vh;overflow:auto}.modal-choice{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid #d9e2e6;border-radius:10px;padding:10px;margin:7px 0;background:#f8fafb}.modal-choice button{border:0;border-radius:8px;padding:9px 12px;background:#07964a;color:#fff;font-weight:900;cursor:pointer}.modal-choice.disabled{opacity:.5}.incident-player{display:flex;align-items:center;gap:8px;padding:9px;border-top:1px solid #e3e9ec}.incident-player button{border:0;border-radius:8px;padding:8px 10px;font-weight:900;cursor:pointer}.incident-yellow{background:#f6d365}.incident-red{background:#d92d2d;color:#fff}@media(max-width:650px){.match-selector-grid,.live-actions{grid-template-columns:1fr}.live-grid{grid-template-columns:1fr}.match-sheet-grid{grid-template-columns:1fr}}
+
+.incident-badges{display:flex;gap:4px;margin-left:auto;align-items:center}.incident-badges b{font-size:12px;line-height:1;padding:3px 5px;border-radius:5px}.inc-gol{background:#e8f7e9}.inc-yellow{background:#fff2a8}.inc-red{background:#ffd6d6}.inc-change{background:#dbeafe}.finish-box textarea,#sheetObservation{width:100%;box-sizing:border-box;resize:vertical;border:1px solid #cbd5e1;border-radius:8px;padding:8px;font:inherit;margin-top:5px}
+
+/* ===== V28: PLANILLA OFICIAL + DELEGADOS + VALLA ===== */
+.delegate-send-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.delegate-card{margin-top:12px;background:linear-gradient(135deg,#f5fafc,#fff);border:1px solid #d6e3e8;border-radius:14px;padding:14px}
+.delegate-card h3{margin:0 0 5px;color:#07334b}.delegate-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.delegate-help{font-size:12px;color:#60727b;margin-top:7px}
+.valla-card{background:#fff;border-radius:14px;box-shadow:0 2px 9px #0001;margin-top:12px;overflow:hidden}.valla-head{background:#08334b;color:#fff;padding:12px 14px;font-weight:900}.valla-sub{padding:9px 14px;background:#eef6f8;color:#4d626c;font-size:12px}.valla-table{width:100%;min-width:0}.valla-table th,.valla-table td{padding:8px 6px}.valla-table th{background:#dcecf1;color:#07334b}.valla-first{background:#eaf8ef;font-weight:900}.valla-badge{display:inline-block;border-radius:999px;padding:3px 8px;background:#eaf8ef;color:#17623e;font-weight:900;font-size:11px}
+.official-sheet-ui{border:1px solid #d5e0e5;border-radius:16px;background:#fff;overflow:hidden;box-shadow:0 3px 14px #0001}.official-head{background:linear-gradient(110deg,#062c43,#0b5575);color:#fff;padding:16px}.official-head-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.official-brand{font-size:25px;font-weight:900;letter-spacing:.3px}.official-kicker{font-size:11px;opacity:.9}.official-title{font-size:19px;font-weight:900;margin-top:4px}.official-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:10px;background:#f2f6f8}.official-meta-box{background:#fff;border:1px solid #d8e2e7;border-radius:9px;padding:8px;text-align:center}.official-meta-box b{display:block;color:#07334b;font-size:11px}.official-score{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:13px;background:#fff}.official-team{font-weight:900;text-align:center}.official-team.home{color:#b70f1a}.official-team.away{color:#23313a}.official-score-num{font-size:30px;font-weight:900;background:#07334b;color:#fff;border-radius:11px;padding:8px 16px}.official-events{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px;background:#f6f8f9}.official-event-box{background:#fff;border:1px solid #dbe4e8;border-radius:10px;padding:10px}.official-event-box h4{margin:0 0 6px;color:#07334b}.official-event-row{font-size:12px;padding:5px 0;border-top:1px solid #edf1f3}.official-event-row:first-of-type{border-top:0}.official-signatures{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:10px}.signature-box{border:1px solid #d5e0e5;border-radius:10px;min-height:75px;padding:9px}.signature-box b{color:#07334b;font-size:11px}.sheet-footer-note{padding:10px 14px;background:#07334b;color:#fff;font-size:11px}
+@media(max-width:650px){.delegate-send-grid{grid-template-columns:1fr}.delegate-grid,.official-meta,.official-events,.official-signatures{grid-template-columns:1fr}.official-score-num{font-size:25px;padding:7px 12px}.official-brand{font-size:21px}}
+
+
+.qr-card{margin-top:14px}.qr-box{display:grid;gap:12px}.qr-video{width:100%;max-width:520px;aspect-ratio:4/3;background:#0b1720;border-radius:14px;object-fit:cover;display:none}.qr-video.active{display:block}.qr-actions{display:flex;gap:8px;flex-wrap:wrap}.qr-result{padding:14px;border-radius:12px;background:#eef7fa;border:1px solid #cfe1e7;white-space:pre-wrap;word-break:break-word;font-weight:700;display:none}.qr-result.show{display:block}
+
+.selection-mode{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0;padding:9px 11px;background:#eef7f3;border:1px solid #c9e8da;border-radius:10px;font-size:12px;color:#245b48}.selection-mode span{font-weight:800}.sheet-scan-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:9px}.manual-list-title{font-size:12px;font-weight:900;color:#083b4d;padding:7px 0}.qr-pending{font-size:10px;font-weight:800;color:#7a8b91;white-space:nowrap}.sheet-player-disabled{opacity:.55}.sheet-player-disabled input{cursor:not-allowed}</style>
+
+<style id="festigol-v16">
+/* ===== V16 CENTRO DE CONTROL ===== */
+.dashboard-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.dash-card{background:#fff;border-radius:14px;padding:15px;box-shadow:0 2px 9px #0001;min-height:120px}.dash-primary{background:linear-gradient(135deg,#07324b,#0a9950);color:#fff}.dash-label{font-size:12px;font-weight:900;opacity:.82;letter-spacing:.3px}.dash-value{font-size:22px;font-weight:900;margin-top:9px;line-height:1.15}.dash-note{font-size:13px;color:#61727a;margin-top:7px}.dash-primary .dash-note{color:#e4f4ec}.dashboard-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}.dashboard-panel{margin-bottom:0}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.panel-head h2{margin:0;font-size:18px}.dash-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid #e3e9ec}.dash-row:first-child{border-top:0}.dash-team{font-weight:900}.dash-meta{font-size:12px;color:#64757d}.dash-score{font-weight:900;background:#07334b;color:#fff;padding:6px 9px;border-radius:8px;white-space:nowrap}.dash-pill{display:inline-block;padding:4px 7px;border-radius:999px;background:#e8f7ee;color:#17663a;font-size:11px;font-weight:900}.dash-alert{padding:10px;border-radius:10px;background:#f5f8f9;margin:7px 0;font-size:13px}.dash-alert.warn{background:#fff7df;color:#6d5100}.dash-alert.ok{background:#e9f7ef;color:#17623e}@media(max-width:700px){.dashboard-grid{grid-template-columns:repeat(2,1fr)}.dashboard-columns{grid-template-columns:1fr}}
+</style>
+<style id="festigol-motion">
+@keyframes festigolRise {from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes festigolPulse {0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+.action,.small-btn,.wa-send,.tournament-card,.card .team-row,.nav button{animation:festigolRise .55s ease-out both;}
+.action:nth-child(2),.small-btn:nth-child(2),.wa-send:nth-child(2),.card .team-row:nth-child(2){animation-delay:.06s}
+.action:nth-child(3),.small-btn:nth-child(3),.wa-send:nth-child(3),.card .team-row:nth-child(3){animation-delay:.12s}
+.action:nth-child(4),.small-btn:nth-child(4),.wa-send:nth-child(4),.card .team-row:nth-child(4){animation-delay:.18s}
+.action:active,.small-btn:active,.wa-send:active,.nav button:active{transform:scale(.97);transition:transform .12s ease}
+#addTeam,#addFixture,#addScorer,#addCard{transition:transform .18s ease,box-shadow .18s ease}
+#addTeam:hover,#addFixture:hover,#addScorer:hover,#addCard:hover{transform:translateY(-2px)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.page{pointer-events:auto}.page.active{pointer-events:auto}.page *{pointer-events:auto}button,a,input,select{pointer-events:auto;touch-action:manipulation}
+.table-summary{margin-bottom:14px}.table-summary h3{margin:0 0 12px}.table-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.summary-item{border:1px solid #d8e2e8;background:#f8fbfc;border-radius:12px;padding:13px 10px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:4px}.summary-item span{font-size:22px}.summary-item strong{font-size:14px;color:#07334b}.summary-item small{font-size:12px;color:#60727d;font-weight:700}.summary-item:active{transform:scale(.99)}@media(max-width:700px){.table-summary-grid{grid-template-columns:1fr}.summary-item{flex-direction:row;align-items:center;gap:9px}.summary-item small{margin-left:auto;text-align:right}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="logo">⚽ <span id="appTournamentName">FESTIGOL 1</span></div><div class="sub">MÁS QUE UN TORNEO, UNA PASIÓN</div></header>
+<nav id="nav">
+<button data-page="inicio" class="active">🏠 Inicio</button>
+<button data-page="torneos">🏟️ Torneos</button>
+<button data-page="admin">⚙️ Administrar</button>
+</nav>
+<div id="backBar" class="backbar"><button id="backButton" class="back-btn" type="button">← ATRÁS</button></div>
+<div class="modal" id="tournamentModal" aria-hidden="true">
+  <div class="modal-box">
+    <h2>🏟️ Crear torneo</h2>
+    <p class="note">Crea un torneo nuevo con la misma estructura de Festigol. Sus equipos, partidos, goleadores, tarjetas y datos de WhatsApp serán independientes.</p>
+    <label>Nombre del torneo<input id="newTournamentName" placeholder="Ejemplo: FESTIGOL 2"></label>
+    <div class="modal-actions"><button class="small-btn gray" type="button" id="cancelTournament">CANCELAR</button><button class="small-btn" type="button" id="confirmTournament">➕ CREAR TORNEO</button></div>
+  </div>
+</div>
+<main>
+<section id="inicio" class="page active">
+<div class="hero"><h1 id="homeTournamentName">FESTIGOL 1</h1><p>Centro de control del torneo: todo lo importante en un solo lugar.</p></div><div id="unlockStatus" class="card" style="border-left:5px solid #07964a"><b>🟢 PROTOTIPO DESBLOQUEADO</b><div class="note">Todas las ventanas del menú están habilitadas para pruebas. Los datos se guardan en este navegador.</div></div>
+<div class="dashboard-grid">
+  <div class="dash-card dash-primary"><div class="dash-label">🏟️ TORNEO ACTIVO</div><div class="dash-value" id="dashTournament">FESTIGOL 1</div><div class="dash-note" id="dashStatus">Control general del torneo</div></div>
+  <div class="dash-card"><div class="dash-label">📅 PRÓXIMA FECHA</div><div class="dash-value" id="dashNextDate">Fecha 3</div><div class="dash-note" id="dashNextCount">5 partidos programados</div></div>
+  <div class="dash-card"><div class="dash-label">⚽ ÚLTIMO RESULTADO</div><div class="dash-value" id="dashLastResult">—</div><div class="dash-note" id="dashLastDate">Sin resultados</div></div>
+  <div class="dash-card"><div class="dash-label">👟 GOLEADOR</div><div class="dash-value" id="dashTopScorer">—</div><div class="dash-note" id="dashTopGoals">0 goles</div></div>
+</div>
+<div class="dashboard-columns">
+  <div class="card dashboard-panel"><div class="panel-head"><h2>📊 Resumen de la competencia</h2><button class="small-btn" type="button" onclick="goPage('tabla')">VER TABLA</button></div><div id="dashSummary"></div></div>
+  <div class="card dashboard-panel"><div class="panel-head"><h2>📅 Próximos partidos</h2><button class="small-btn" type="button" onclick="goPage('calendario')">VER CALENDARIO</button></div><div id="dashFixtures"></div></div>
+</div>
+<div class="dashboard-columns">
+  <div class="card dashboard-panel"><div class="panel-head"><h2>⚽ Últimos resultados</h2><button class="small-btn" type="button" onclick="goPage('resultados')">VER RESULTADOS</button></div><div id="dashResults"></div></div>
+  <div class="card dashboard-panel"><div class="panel-head"><h2>🚨 Alertas del torneo</h2></div><div id="dashAlerts"></div></div>
+</div>
+<div class="cards">
+<div class="card">Equipos<div class="big" id="nTeams">10</div></div>
+<div class="card">Partidos<div class="big" id="total">10</div></div>
+<div class="card">Fecha actual<div class="big" id="currentDate">1</div></div>
+<div class="card">Líder<div class="big" id="leader">Chacho FC</div></div>
+</div>
+<div class="card"><h2>Reglas</h2><ol><li>Victoria: 3 puntos.</li><li>Empate: 1 punto.</li><li>Derrota: 0 puntos.</li><li>Desempate: puntos → diferencia de goles → enfrentamiento directo si aplica.</li></ol></div>
+</section>
+
+
+<section id="torneos" class="page">
+<h2>🏟️ Mis torneos</h2>
+<div class="card">
+<h3>Administrar torneos FESTIGOL</h3>
+<p class="note">Cada torneo funciona de forma independiente: equipos, resultados, calendario, goleadores, tarjetas e informes de WhatsApp quedan separados.</p>
+<button class="action" type="button" id="createTournament">➕ CREAR TORNEO</button>
+</div>
+<div id="tournamentList" class="tournament-grid"></div>
+<div id="tournamentTools" class="card" style="margin-top:14px">
+  <h3>📂 Herramientas del torneo seleccionado</h3>
+  <p class="note">Selecciona primero el torneo que quieres administrar. Todas las funciones existentes de FESTIGOL permanecen iguales.</p>
+  <div class="tournament-tools-grid">
+    <button class="small-btn" type="button" onclick="goPage('tabla')">🏆 Tabla</button>
+    <button class="small-btn" type="button" onclick="goPage('resultados')">⚽ Resultados</button>
+    <button class="small-btn" type="button" onclick="goPage('calendario')">📅 Calendario</button>
+    <button class="small-btn" type="button" onclick="goPage('programarPartidos')">📅 Programar partidos</button>
+    <button class="small-btn" type="button" onclick="goPage('equiposInscritos')">👥 Equipos inscritos</button>
+    <button class="small-btn" type="button" onclick="goPage('planillaPartido')">📋 Planilla de partido</button>
+    <button class="small-btn" type="button" onclick="goPage('plantillas')">👥 Plantillas</button>
+    <button class="small-btn" type="button" onclick="goPage('escarapelas')">🪪 Escarapelas</button>
+    <button class="small-btn" type="button" onclick="goPage('goleadores')">👟 Goleadores</button>
+    <button class="small-btn" type="button" onclick="goPage('registrar')">➕ Registrar</button>
+    <button class="small-btn" type="button" onclick="goPage('tarjetas')">🟨 Tarjetas</button>
+  </div>
+</div>
+</section>
+
+<section id="tabla" class="page"><h2>🏆 Tabla de posiciones</h2><div class="whatsapp-panel"><h2>📲 Compartir estadísticas por WhatsApp</h2><p class="wa-note">FESTIGOL genera una <b>imagen lista para WhatsApp</b> con la tabla de posiciones, los 10 primeros goleadores y la valla menos vencida. El nombre del torneo aparece claramente en la imagen.</p><button type="button" class="wa-send" id="waTableStats">📲 ENVIAR ESTADÍSTICAS POR WHATSAPP</button><p class="delegate-help">En Android se abrirá el menú de compartir para seleccionar WhatsApp y enviar la imagen directamente al chat. No se genera ni se necesita un PDF.</p></div><div class="card table-summary"><h3>📊 Resumen de la tabla</h3><div class="table-summary-grid"><button type="button" class="summary-item" onclick="goPage('tabla')"><span>🏆</span><strong>Tabla de posiciones</strong><small id="summaryLeader">—</small></button><button type="button" class="summary-item" onclick="goPage('goleadores')"><span>👟</span><strong>Goleadores</strong><small id="summaryScorer">—</small></button><button type="button" class="summary-item" onclick="document.querySelector('.valla-card')?.scrollIntoView({behavior:'smooth'})"><span>🧤</span><strong>Valla menos vencida</strong><small id="summaryValla">—</small></button></div></div><div class="tablebox"><table><thead><tr><th>POS</th><th>EQUIPO</th><th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th></tr></thead><tbody id="standings"></tbody></table></div><div class="valla-card"><div class="valla-head">🧤 VALLA MENOS VENCIDA</div><div class="valla-sub">Ordenada automáticamente desde el equipo que ha recibido menos goles hasta el que ha recibido más.</div><div class="tablebox" style="box-shadow:none;border-radius:0"><table class="valla-table"><thead><tr><th>POS</th><th>EQUIPO</th><th>PJ</th><th>GC</th><th>GF</th><th>DG</th></tr></thead><tbody id="vallaBody"></tbody></table></div></div><div class="valla-card scorers-summary-card"><div class="valla-head">👟 GOLEADORES</div><div class="valla-sub">Ordenados automáticamente desde el jugador con más goles hasta el siguiente. Se muestran los 10 primeros.</div><div class="tablebox" style="box-shadow:none;border-radius:0"><table class="valla-table"><thead><tr><th>POS</th><th>JUGADOR</th><th>EQUIPO</th><th>GOLES</th></tr></thead><tbody id="summaryScorersBody"></tbody></table></div></div></section>
+
+<section id="resultados" class="page"><h2>⚽ Resultados</h2><div class="tabs" id="resultTabs"><button data-f="1" class="active">Fecha 1</button><button data-f="2">Fecha 2</button><button data-f="3">Fecha 3</button></div><div id="results"></div></section>
+
+<section id="calendario" class="page"><h2>📅 Calendario</h2><p class="note">Fecha 3 programada. Aún no tiene resultados.</p><div id="fixtures"></div></section>
+
+<section id="programarPartidos" class="page">
+<h2>📅 Programar partidos — <span class="sectionTournamentName">FESTIGOL 1</span></h2>
+<div class="card"><div class="inline-form"><h3>📅 Nuevo partido</h3><p class="note">Programa la jornada, los equipos y los datos básicos. El partido quedará guardado en el calendario.</p><label>Jornada<select id="scheduleFixtureDate"></select></label><label>Local<select id="scheduleFixtureLocal"></select></label><label>Visitante<select id="scheduleFixtureVisitor"></select></label><label>Hora<input id="scheduleFixtureTime" type="time"></label><label>Cancha<input id="scheduleFixtureField" type="text" placeholder="Ej. Cancha principal"></label><label>Árbitro<input id="scheduleFixtureReferee" type="text" placeholder="Nombre del árbitro"></label><button class="action" type="button" id="saveScheduledFixture">📅 PROGRAMAR PARTIDO</button></div></div>
+<div class="card"><h3>📋 Partidos programados</h3><div id="scheduledFixturesList"></div></div>
+</section>
+
+<section id="equiposInscritos" class="page">
+<h2>👥 Equipos inscritos — <span class="sectionTournamentName">FESTIGOL 1</span></h2>
+<div class="card"><p class="note">Pulsa un equipo para visualizar los jugadores inscritos, sus nombres y fotografías.</p><div id="registeredTeamsList" class="registered-teams-grid"></div></div>
+<div id="registeredTeamPlayers"></div>
+</section>
+
+<section id="plantillas" class="page"><h2>👥 Plantillas — <span class="sectionTournamentName">FESTIGOL 1</span></h2>
+<div class="roster-toolbar"><label>Equipo<select id="rosterTeam"></select></label><p class="note">Cada equipo tiene 18 cupos de jugadores + 1 técnico + 1 asistente técnico. Las fotos se convierten a PNG y quedan vinculadas a la ficha.</p><button class="small-btn" type="button" id="saveRoster">💾 GUARDAR PLANILLA DE INSCRIPCIÓN</button></div>
+<div id="rosterPlayers" class="roster-grid"></div>
+<div class="card"><div class="roster-title"><h3>🧑‍💼 Cuerpo técnico</h3><span class="roster-count">2 espacios</span></div><div class="staff-grid"><label>👨‍💼 Técnico<input id="staffCoach" type="text" placeholder="Nombre del técnico"></label><label>🧑‍💼 Asistente técnico<input id="staffAssistant" type="text" placeholder="Nombre del asistente técnico"></label></div><div class="delegate-card"><h3>📲 Delegado del equipo y WhatsApp</h3><p class="note" style="margin:0 0 9px">Estos datos quedan asociados al equipo y se utilizarán al enviar la planilla oficial del partido.</p><div class="delegate-grid"><label>👤 Nombre del delegado<input id="delegateName" type="text" placeholder="Nombre del delegado"></label><label>📱 WhatsApp<input id="delegatePhone" type="tel" inputmode="tel" placeholder="Ej. 300 123 4567"></label></div><div class="delegate-help">Para Colombia puedes escribir el número normal de 10 dígitos. FESTIGOL lo convertirá al formato internacional al abrir WhatsApp.</div></div></div>
+</section>
+
+<section id="planillaPartido" class="page"><h2>📋 Planilla de partido — <span class="sectionTournamentName">FESTIGOL 1</span></h2>
+<div class="card"><p class="note"><b>PLANILLA OFICIAL:</b> abre el partido desde Calendario, selecciona los jugadores que participarán (pueden ser 5, 8, 9, 11 o cualquier cantidad disponible) y registra cambios, 🟨 amarillas, 🟥 rojas y ⚽ goles. El PDF final sigue el diseño profesional de referencia FESTIGOL y añade tabla, goleadores y valla menos vencida.</p>
+<div class="fixture-planilla-info"><div class="fixture-planilla-icon">📋</div><div><h3>La planilla se abre directamente desde el calendario</h3><p class="note">Toca cualquier partido programado y FESTIGOL cargará automáticamente los dos equipos, la fecha de la jornada y sus 18 jugadores. Aquí puedes inscribir jugadores de dos maneras: seleccionándolos desde la plantilla o escaneando su QR. Luego registrarás titulares, cambios, goles, tarjetas y observaciones.</p></div></div><button class="action" type="button" onclick="show('calendario')">📅 VOLVER AL CALENDARIO Y ELEGIR PARTIDO</button></div>
+<div id="matchSheetResult"></div>
+</section>
+
+<section id="escarapelas" class="page"><h2>🪪 Escarapelas guardadas — <span class="sectionTournamentName">FESTIGOL 1</span></h2>
+<div class="card"><p class="note">Aquí quedan guardadas las escarapelas generadas. Se organizan automáticamente por equipo y jugador.</p><div id="savedBadges"></div></div>
+</section>
+
+<section id="registrar" class="page"><h2>➕ Registrar resultado</h2><form id="form">
+<label>Fecha<select id="fecha"><option value="3">Fecha 3</option><option value="4">Fecha 4</option><option value="5">Fecha 5</option></select></label>
+<label>Equipo local<select id="local"></select></label><label>Goles local<input id="gl" type="number" min="0" value="0"></label>
+<label>Equipo visitante<select id="visitante"></select></label><label>Goles visitante<input id="gv" type="number" min="0" value="0"></label>
+<div class="proof-box"><h3>⚽ Goleadores del encuentro</h3><p class="note">La cantidad de espacios se ajusta automáticamente al marcador. Si un equipo marca 0, no aparece ningún espacio.</p><div id="homeGoalScorers"></div><div id="awayGoalScorers"></div></div>
+<label>🕐 Hora del partido<input id="matchTime" type="time"></label>
+<label>🏟️ Cancha<input id="matchField" type="text" placeholder="Ej. Cancha 1"></label>
+<label>👨‍⚖️ Árbitro<input id="matchReferee" type="text" placeholder="Nombre del árbitro"></label>
+<div class="proof-box"><h3>🟨 Tarjetas amarillas</h3><p class="note">Indica cuántas hubo. Se abrirá un espacio para cada jugador amonestado.</p><label>🟨 Cantidad de amarillas<select id="yellowCount"><option value="0">0 — Ninguna</option><option value="1">1 amarilla</option><option value="2">2 amarillas</option><option value="3">3 amarillas</option><option value="4">4 amarillas</option><option value="5">5 amarillas</option><option value="6">6 amarillas</option><option value="7">7 amarillas</option><option value="8">8 amarillas</option><option value="9">9 amarillas</option><option value="10">10 amarillas</option></select></label><div id="yellowPlayers" class="card-entry-list"></div></div>
+<div class="proof-box"><h3>🟥 Tarjetas rojas</h3><p class="note">Indica cuántas hubo. Se abrirá un espacio para cada jugador expulsado.</p><label>🟥 Cantidad de rojas<select id="redCount"><option value="0">0 — Ninguna</option><option value="1">1 roja</option><option value="2">2 rojas</option><option value="3">3 rojas</option><option value="4">4 rojas</option><option value="5">5 rojas</option><option value="6">6 rojas</option><option value="7">7 rojas</option><option value="8">8 rojas</option><option value="9">9 rojas</option><option value="10">10 rojas</option></select></label><div id="redPlayers" class="card-entry-list"></div></div>
+<div class="proof-box"><h3>📸 Soporte fotográfico de la planilla <span class="note">(opcional)</span></h3><p class="note">Puedes tomar una foto de la planilla o seleccionar una imagen. Si no la tienes, puedes registrar el resultado sin fotografía.</p><input id="matchProof" type="file" accept="image/png,image/jpeg,image/webp" capture="environment"><div id="proofPreview" class="proof-preview"></div></div>
+<div id="registrationSuccess" class="registration-success" style="display:none"></div><button id="registerResultBtn" class="action register-action" type="submit">💾 REGISTRAR RESULTADO</button><button class="action wa" type="button" id="wa">📲 ENVIAR TABLA POR WHATSAPP</button><button class="action gray" type="button" id="reset">RESTABLECER DATOS</button>
+</form>
+<div class="whatsapp-panel">
+<h2>📲 Enviar información por WhatsApp</h2>
+<p class="wa-note">Elige qué quieres compartir. Se abrirá WhatsApp con el mensaje preparado.</p>
+<button type="button" class="wa-send" id="waTable">🏆 ENVIAR TABLA</button>
+<button type="button" class="wa-send" id="waResults">⚽ ENVIAR RESULTADOS</button>
+<button type="button" class="wa-send" id="waNext">📅 ENVIAR PRÓXIMA FECHA</button>
+<button type="button" class="wa-send" id="waFull">📢 ENVIAR INFORME COMPLETO</button>
+</div></section>
+
+
+<section id="goleadores" class="page"><h2>👟 Goleadores — <span class="sectionTournamentName">FESTIGOL 1</span></h2><div class="card"><table style="min-width:0"><thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th>Goles</th></tr></thead><tbody id="scorersBody"></tbody></table></div></section>
+<section id="tarjetas" class="page"><h2>🟨 Tarjetas — <span class="sectionTournamentName">FESTIGOL 1</span></h2><div id="cardsList"></div></section>
+<section id="admin" class="page"><h2>⚙️ Administrar <span class="sectionTournamentName">FESTIGOL 1</span></h2>
+<div class="admin-grid">
+<div class="inline-form"><h3>⚽ Equipos del torneo</h3><input id="newTeam" placeholder="Nombre del equipo"><button class="small-btn" id="addTeam">➕ AGREGAR EQUIPO</button><p class="note">Agrega los equipos que participarán en este torneo. Puedes agregar tantos como necesites.</p></div>
+<div class="inline-form"><h3>📅 Programar partido</h3><label>Fecha<select id="fixtureDate"></select></label><label>Local<select id="fixtureLocal"></select></label><label>Visitante<select id="fixtureVisitor"></select></label><button class="small-btn" id="addFixture">📅 AGREGAR PARTIDO</button></div>
+<div class="inline-form"><h3>⚽ Registrar goleador</h3><input id="scorerName" placeholder="Nombre del jugador"><select id="scorerTeam"></select><input id="scorerGoals" type="number" min="1" value="1" placeholder="Goles"><button class="small-btn" id="addScorer">⚽ AGREGAR GOLEADOR</button></div>
+<div class="inline-form"><h3>🟨🟥 Registrar tarjeta</h3><input id="cardPlayer" placeholder="Nombre del jugador"><select id="cardTeam"></select><select id="cardType"><option value="Amarilla">🟨 Amarilla</option><option value="Roja">🟥 Roja</option></select><button class="small-btn" id="addCard">📝 AGREGAR TARJETA</button></div>
+</div>
+<div class="card qr-card"><h3>📷 Escanear código QR</h3><p class="note">Escanea desde la cámara del teléfono un código QR de FESTIGOL. El contenido detectado aparecerá aquí para validarlo.</p><div class="qr-box"><video id="qrVideo" class="qr-video" playsinline muted></video><div class="qr-actions"><button class="small-btn" type="button" id="startQR">📷 ABRIR CÁMARA</button><button class="small-btn gray" type="button" id="stopQR">⏹️ DETENER</button></div><div id="qrStatus" class="note">Cámara cerrada.</div><div id="qrResult" class="qr-result"></div></div></div>
+<div class="card"><h3>⚽ Equipos del torneo y escudos</h3><p class="note">Puedes colocar un escudo por equipo. Se recomienda una imagen PNG con fondo transparente.</p><div id="adminTeams"></div></div>
+</section>
+</main></div>
+
+<script>
+const BASE_TEAMS=["Pedro FC","Inés FC","Tirzo FC","Zuly FC","Nelson FC","Maicol FC","Chacho FC","Ferna FC","Leo FC","Esther FC"];
+const BASE_RESULTS=[
+{f:1,a:"Pedro FC",b:"Esther FC",x:4,y:2},{f:1,a:"Inés FC",b:"Leo FC",x:2,y:4},{f:1,a:"Tirzo FC",b:"Ferna FC",x:5,y:5},{f:1,a:"Chacho FC",b:"Zuly FC",x:3,y:1},{f:1,a:"Maicol FC",b:"Nelson FC",x:1,y:2},
+{f:2,a:"Pedro FC",b:"Leo FC",x:2,y:2},{f:2,a:"Esther FC",b:"Tirzo FC",x:1,y:3},{f:2,a:"Inés FC",b:"Chacho FC",x:2,y:3},{f:2,a:"Ferna FC",b:"Maicol FC",x:4,y:1},{f:2,a:"Zuly FC",b:"Nelson FC",x:2,y:2}
+];
+const BASE_FIXTURES=[["Pedro FC","Tirzo FC",3],["Leo FC","Chacho FC",3],["Esther FC","Maicol FC",3],["Inés FC","Nelson FC",3],["Ferna FC","Zuly FC",3]];
+const BASE_PLAYERS=[["Carlos M.","Chacho FC",5],["Andrés R.","Ferna FC",4],["Luis P.","Tirzo FC",4],["Diego T.","Pedro FC",4],["Mateo L.","Leo FC",4],["Nelson G.","Nelson FC",3],["Jhon I.","Inés FC",3],["Esteban Z.","Zuly FC",2],["Maicol D.","Maicol FC",2],["David E.","Esther FC",2]];
+const DEMO_MATCH_TEAMS=["Pedro FC","Esther FC"];
+function makeDemoRoster(team){return {players:Array.from({length:18},(_,i)=>({name:`Jugador ${i+1} · ${team}`,birth:`2010-${String((i%9)+1).padStart(2,"0")}-${String((i%27)+1).padStart(2,"0")}`,eps:"EPS Simulada",category:"Sub-15",photo:"",idFront:"",idBack:"",badge:"",qr:"",badgeName:"",badgeGeneratedAt:""})),coach:"Técnico Simulado",assistant:"Asistente Simulado",delegateName:"",delegatePhone:""};}
+
+
+function blankTournament(name){
+  return {name,teams:[],results:[],fixtures:[],players:[],cards:[],escudos:{},rosters:{},currentDate:1};
+}
+function seedFirst(){
+  return {name:"FESTIGOL 1",teams:BASE_TEAMS.slice(),results:BASE_RESULTS.slice(),fixtures:BASE_FIXTURES.map(x=>x.slice()),players:BASE_PLAYERS.map(x=>x.slice()),cards:[],escudos:{},rosters:Object.fromEntries(BASE_TEAMS.map(team=>[team,makeDemoRoster(team)])),currentDate:3};
+}
+let tournaments=JSON.parse(localStorage.getItem("festigol_tournaments_v5")||"null");
+if(!Array.isArray(tournaments)||!tournaments.length){tournaments=[seedFirst()];localStorage.setItem("festigol_tournaments_v5",JSON.stringify(tournaments));}
+let currentIndex=Math.max(0,Math.min(Number(localStorage.getItem("festigol_current_v5")||0),tournaments.length-1));
+let current=tournaments[currentIndex];
+// V38 — habilitar selección manual con 18 jugadores de prueba en los cuatro primeros equipos del torneo.
+// No reemplaza jugadores ya existentes ni modifica torneos creados por el usuario.
+function ensureManualDemoRosters(t){
+  if(!t||!Array.isArray(t.teams))return;
+  if(!t.rosters||typeof t.rosters!=="object")t.rosters={};
+  t.teams.slice(0,4).forEach(team=>{
+    const r=t.rosters[team];
+    const hasNamed=Array.isArray(r?.players)&&r.players.some(p=>p&&String(p.name||"").trim());
+    if(!hasNamed)t.rosters[team]=makeDemoRoster(team);
+    else if(Array.isArray(r.players)){while(r.players.length<18)r.players.push(blankPlayer());r.players=r.players.slice(0,18);}
+  });
+}
+ensureManualDemoRosters(current);
+// Compatibilidad con versiones anteriores: los equipos siguen siendo nombres y los escudos se guardan aparte.
+tournaments.forEach(t=>{if(!t.escudos||typeof t.escudos!=="object")t.escudos={};if(!t.rosters||typeof t.rosters!=="object")t.rosters={};if(!Array.isArray(t.teams))t.teams=[];t.teams.forEach(team=>{if(!t.rosters[team])t.rosters[team]={players:Array.from({length:18},blankPlayer),coach:"",assistant:""}});});
+current=tournaments[currentIndex];
+
+function save(){tournaments[currentIndex]=current;localStorage.setItem("festigol_tournaments_v5",JSON.stringify(tournaments));localStorage.setItem("festigol_current_v5",String(currentIndex));}
+let pageHistory=[];
+let currentPageId="inicio";
+function updateBackButton(){const bar=document.getElementById("backBar");if(bar)bar.classList.toggle("show",currentPageId!=="inicio"&&pageHistory.length>0);}
+window.showPage=function(id,fromBack=false){
+  if(!document.getElementById(id))return;
+  if(id!==currentPageId&&!fromBack){pageHistory.push(currentPageId);}
+  currentPageId=id;
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+  updateBackButton(); window.scrollTo(0,0);
+}
+function show(id){return window.showPage(id)}
+function goBack(){if(pageHistory.length){const previous=pageHistory.pop();window.showPage(previous,true);}else{window.showPage("inicio",true);}}
+document.getElementById("backButton")?.addEventListener("click",goBack);
+document.querySelectorAll("#nav button").forEach(b=>{b.disabled=false;b.removeAttribute("aria-disabled");b.addEventListener("click",(e)=>{e.preventDefault();e.stopPropagation();show(b.dataset.page);});});
+window.goPage=goPage;
+window.addEventListener("error",e=>{const st=document.getElementById("unlockStatus");if(st)st.innerHTML=`<b>⚠️ Error detectado</b><div class="note">${esc(e.message||"Error de JavaScript")}. El prototipo sigue disponible para diagnóstico.</div>`;});
+
+
+let qrStream=null,qrScanning=false,qrDetector=null;
+async function startQRScanner(){
+ const video=document.getElementById("qrVideo"), status=document.getElementById("qrStatus"), result=document.getElementById("qrResult");
+ if(!video)return;
+ if(!window.isSecureContext && location.protocol!=="file:"){status.textContent="⚠️ La cámara requiere una conexión segura (HTTPS).";return;}
+ if(!("BarcodeDetector" in window)){status.textContent="⚠️ Este navegador no tiene lector QR nativo. Abre FESTIGOL en una versión reciente de Chrome.";return;}
+ try{
+   const formats=await BarcodeDetector.getSupportedFormats();
+   if(!formats.includes("qr_code")){status.textContent="⚠️ El navegador no admite códigos QR.";return;}
+   qrDetector=new BarcodeDetector({formats:["qr_code"]});
+   qrStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
+   video.srcObject=qrStream; video.classList.add("active"); await video.play(); qrScanning=true;
+   status.textContent="🟢 Cámara activa. Apunta al código QR."; result.classList.remove("show");
+   scanQRFrame();
+ }catch(e){status.textContent="⚠️ No se pudo abrir la cámara. Revisa el permiso de cámara en Chrome.";}
+}
+async function scanQRFrame(){
+ if(!qrScanning||!qrDetector)return;
+ const video=document.getElementById("qrVideo"), status=document.getElementById("qrStatus"), result=document.getElementById("qrResult");
+ try{
+   const codes=await qrDetector.detect(video);
+   if(codes.length){
+     const raw=codes[0].rawValue||"";
+     result.textContent="✅ QR DETECTADO\n\n"+raw; result.classList.add("show"); status.textContent="✅ Código QR leído correctamente.";
+     stopQRScanner(); return;
+   }
+ }catch(e){}
+ requestAnimationFrame(scanQRFrame);
+}
+function stopQRScanner(){
+ qrScanning=false; if(qrStream){qrStream.getTracks().forEach(t=>t.stop());qrStream=null;}
+ const video=document.getElementById("qrVideo"); if(video){video.pause();video.srcObject=null;video.classList.remove("active");}
+ const status=document.getElementById("qrStatus"); if(status)status.textContent="Cámara cerrada.";
+}
+document.getElementById("startQR")?.addEventListener("click",startQRScanner);
+document.getElementById("stopQR")?.addEventListener("click",stopQRScanner);
+
+function table(){let t={};current.teams.forEach(n=>t[n]={n,pj:0,pg:0,pe:0,pp:0,gf:0,gc:0,pts:0});current.results.forEach(r=>{if(!t[r.a]||!t[r.b])return;let A=t[r.a],B=t[r.b];A.pj++;B.pj++;A.gf+=r.x;A.gc+=r.y;B.gf+=r.y;B.gc+=r.x;if(r.x>r.y){A.pg++;A.pts+=3;B.pp++}else if(r.x<r.y){B.pg++;B.pts+=3;A.pp++}else{A.pe++;B.pe++;A.pts++;B.pts++}});return Object.values(t).map(x=>({...x,dg:x.gf-x.gc})).sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf||a.n.localeCompare(b.n))}
+function crestHTML(name){return current.escudos&&current.escudos[name]?`<img class="crest" src="${current.escudos[name]}" alt="Escudo ${name}">`:`<span class="crest-placeholder">⚽</span>`}
+function teamHTML(name){return `<span class="team-line">${crestHTML(name)}<span>${name}</span></span>`}
+function goPage(page){window.showPage(page)}
+function renderDashboard(){
+  const el=id=>document.getElementById(id); if(!el)return;
+  el("dashTournament").textContent=current.name||"FESTIGOL";
+  const played=current.results.length, scheduled=current.fixtures.length;
+  const future=current.fixtures.filter(p=>!current.results.some(r=>r.f===p[2]&&r.a===p[0]&&r.b===p[1]));
+  const nextDate=future.length?Math.min(...future.map(p=>+p[2])):null;
+  el("dashNextDate").textContent=nextDate?`Fecha ${nextDate}`:"Sin fecha pendiente";
+  el("dashNextCount").textContent=nextDate?`${future.filter(p=>+p[2]===nextDate).length} partido(s) programado(s)`:(scheduled?"Calendario al día":"Programa los próximos partidos");
+  const last=current.results[current.results.length-1];
+  el("dashLastResult").textContent=last?`${last.a} ${last.x}-${last.y} ${last.b}`:"—";
+  el("dashLastDate").textContent=last?`Fecha ${last.f} · ${last.time||"hora no registrada"}`:"Sin resultados registrados";
+  const top=aggregateScorers()[0];
+  el("dashTopScorer").textContent=top?top.name:"—"; el("dashTopGoals").textContent=top?`${top.goals} gol${top.goals===1?"":"es"}${top.team?` · ${top.team}`:""}`:"0 goles";
+  const t=table(); const totalGoals=current.results.reduce((n,r)=>n+(+r.x||0)+(+r.y||0),0);
+  el("dashSummary").innerHTML=`<div class="dash-row"><div><div class="dash-team">Equipos</div><div class="dash-meta">Participantes activos</div></div><span class="dash-pill">${current.teams.length}</span></div><div class="dash-row"><div><div class="dash-team">Partidos jugados</div><div class="dash-meta">Resultados registrados</div></div><span class="dash-pill">${played}</span></div><div class="dash-row"><div><div class="dash-team">Partidos programados</div><div class="dash-meta">Incluye fechas futuras</div></div><span class="dash-pill">${scheduled}</span></div><div class="dash-row"><div><div class="dash-team">Goles registrados</div><div class="dash-meta">Total del torneo</div></div><span class="dash-pill">${totalGoals}</span></div><div class="dash-row"><div><div class="dash-team">Líder</div><div class="dash-meta">Primero en la tabla</div></div><b>${esc(t[0]?.n||"—")}</b></div>`;
+  const next=nextDate?future.filter(p=>+p[2]===nextDate):[];
+  el("dashFixtures").innerHTML=next.length?next.slice(0,5).map(p=>`<div class="dash-row"><div><div class="dash-team">${esc(p[0])}</div><div class="dash-meta">vs ${esc(p[1])}</div></div><span class="dash-pill">F${p[2]}</span></div>`).join(""):'<div class="dash-alert ok">✅ No hay partidos pendientes en el calendario actual.</div>';
+  const recent=current.results.slice(-5).reverse();
+  el("dashResults").innerHTML=recent.length?recent.map(r=>`<div class="dash-row"><div><div class="dash-team">${esc(r.a)} vs ${esc(r.b)}</div><div class="dash-meta">Fecha ${r.f}</div></div><span class="dash-score">${r.x} - ${r.y}</span></div>`).join(""):'<div class="dash-alert">Todavía no hay resultados registrados.</div>';
+  const alerts=[];
+  if(!current.teams.length)alerts.push(["warn","⚠️ El torneo todavía no tiene equipos."]);
+  if(current.teams.length&&current.fixtures.length===0)alerts.push(["warn","⚠️ No hay partidos programados."]);
+  if(future.length)alerts.push(["ok",`📅 Hay ${future.length} partido(s) pendiente(s) por jugar.`]);
+  if((current.cards||[]).some(c=>c.type==="Roja"))alerts.push(["warn","🟥 Hay tarjetas rojas registradas. Revisa la sección Tarjetas."]);
+  if(!alerts.length)alerts.push(["ok","✅ El torneo está al día. No hay alertas pendientes."]);
+  el("dashAlerts").innerHTML=alerts.map(a=>`<div class="dash-alert ${a[0]}">${a[1]}</div>`).join("");
+}
+function vallaMenosVencida(){return table().slice().sort((a,b)=>a.gc-b.gc||b.dg-a.dg||b.gf-a.gf||b.pts-a.pts||a.n.localeCompare(b.n,"es"))}
+function renderValla(){const b=document.getElementById("vallaBody");if(!b)return;const rows=vallaMenosVencida();if(!rows.length){b.innerHTML="<tr><td colspan=\"6\">No hay equipos registrados.</td></tr>";return}b.innerHTML=rows.map((x,i)=>{const best=i===0?'<span class="valla-badge">MEJOR VALLA</span>':'';const dg=(x.dg>0?'+':'')+x.dg;return '<tr class="'+(i===0?'valla-first':'')+'"><td class="pos">'+(i+1)+'</td><td>'+teamHTML(x.n)+' '+best+'</td><td>'+x.pj+'</td><td><b>'+x.gc+'</b></td><td>'+x.gf+'</td><td>'+dg+'</td></tr>'}).join("")}
+function renderTable(){let t=table();const topSc=aggregateScorers()[0],bestV=vallaMenosVencida()[0];const sl=document.getElementById("summaryLeader"),ss=document.getElementById("summaryScorer"),sv=document.getElementById("summaryValla");if(sl)sl.textContent=t[0]?`Líder: ${t[0].n} · ${t[0].pts} pts`:"Sin equipos";if(ss)ss.textContent=topSc?`${topSc.name} · ${topSc.goals} gol${topSc.goals===1?"":"es"}`:"Sin goles registrados";if(sv)sv.textContent=bestV?`${bestV.n} · ${bestV.gc} GC`:"Sin equipos";document.getElementById("standings").innerHTML=t.map((x,i)=>`<tr class="${i===0?'leaderrow':''}"><td class="pos">${i+1}</td><td>${teamHTML(x.n)}</td><td>${x.pj}</td><td>${x.pg}</td><td>${x.pe}</td><td>${x.pp}</td><td>${x.gf}</td><td>${x.gc}</td><td>${x.dg>0?"+":""}${x.dg}</td><td><b>${x.pts}</b></td></tr>`).join("");renderValla();renderSummaryScorers();document.getElementById("leader").textContent=t[0]?.n||"—";document.getElementById("nTeams").textContent=current.teams.length;document.getElementById("total").textContent=current.results.length;document.getElementById("currentDate").textContent=current.currentDate}
+function renderResults(f=1){let arr=current.results.filter(r=>r.f===f);document.getElementById("results").innerHTML=arr.length?arr.map(r=>{let cards=Array.isArray(r.cards)?r.cards:[];return `<div class="match"><div class="team">${teamHTML(r.a)}</div><div class="score">${r.x} - ${r.y}</div><div class="team">${teamHTML(r.b)}</div><div class="match-details"><div class="match-detail"><b>🕐 HORA</b>${r.time||"No registrada"}</div><div class="match-detail"><b>🏟️ CANCHA</b>${r.field||"No registrada"}</div><div class="match-detail"><b>👨‍⚖️ ÁRBITRO</b>${r.referee||"No registrado"}</div></div>${Array.isArray(r.goals)&&r.goals.length?`<div class="match-goals"><b>⚽ GOLEADORES</b><br>${r.goals.map(g=>g.player+" — "+g.team).join("<br>")}</div>`:`<div class="no-cards">⚽ Sin goleadores registrados</div>`}${cards.length?`<div class="match-cards"><b>🟨🟥 TARJETAS</b><br>${cards.map(c=>(c.type==="Roja"?"🟥":"🟨")+" "+c.player+" — "+c.team).join("<br>")}</div>`:`<div class="no-cards">🟢 Sin tarjetas registradas</div>`}${`<div style="grid-column:1/-1;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">${r.proof?`<button class="small-btn" type="button" onclick="viewProof(${current.results.indexOf(r)})">📸 VER PLANILLA</button>`:`<span class="proof-badge">⚪ Sin soporte fotográfico</span>`}<button class="small-btn wa" type="button" onclick="sendMatchWA(${current.results.indexOf(r)})">📲 WHATSAPP</button></div>`}</div>`}).join(""):`<div class="card">No hay resultados registrados en esta fecha.</div>`}
+function renderFixtures(){
+  const box=document.getElementById("fixtures");
+  if(!box)return;
+  box.innerHTML=current.fixtures.length?current.fixtures.map((p,idx)=>{
+    const played=current.results.some(r=>r.f===p[2]&&r.a===p[0]&&r.b===p[1]);
+    return `<div class="match fixture-match ${played?"played":""}" aria-label="Partido ${esc(p[0])} contra ${esc(p[1])}">
+      <div class="fixture-date">📅 FECHA ${esc(p[2])}${played?' · ✅ REGISTRADO':''}</div>
+      <div class="team">${teamHTML(p[0])}</div><div class="score">VS</div><div class="team">${teamHTML(p[1])}</div>
+      <button type="button" class="fixture-open" onclick="openFixtureActions(${idx})">📋 ABRIR PARTIDO</button>
+      <div id="fixture-actions-${idx}" class="fixture-actions" style="display:none">
+        <div class="fixture-actions-title">¿Qué deseas hacer con este partido?</div>
+        <button type="button" class="small-btn" onclick="openFixtureMatch(${idx})">📋 REGISTRAR PLANTILLA</button>
+      </div>
+    </div>`;
+  }).join(""):`<div class="card">No hay partidos programados.</div>`;
+}
+function openFixtureActions(index){
+  document.querySelectorAll('.fixture-actions').forEach(x=>x.style.display='none');
+  const box=document.getElementById(`fixture-actions-${index}`);
+  if(box){box.style.display='block';box.scrollIntoView({behavior:'smooth',block:'nearest'});}
+}
+function openFixtureMatch(index){
+  const f=current.fixtures[index];
+  if(!f)return;
+  const key=`${f[2]}|${f[0]}|${f[1]}`;
+  const existing=current.activeMatch&&current.activeMatch.fixtureKey===key?current.activeMatch:null;
+  if(existing){show("planillaPartido");renderMatchSheet();return;}
+  const m={id:Date.now(),fixtureKey:key,fixture:+f[2]||1,home:f[0],away:f[1],date:"",time:f[3]||"",field:f[4]||"",city:current.city||"",referee:f[5]||"",assistant1:"",assistant2:"",observation:"",scoreHome:0,scoreAway:0,locked:false,finished:false,events:[],teams:{[f[0]]:{starting:[],active:[],squad:Array.from({length:18},(_,i)=>i)},[f[1]]:{starting:[],active:[],squad:Array.from({length:18},(_,i)=>i)}}};
+  setActiveMatch(m);
+  show("planillaPartido");
+  renderMatchSheet();
+}
+function renderScheduleControls(){
+  const date=document.getElementById("scheduleFixtureDate"),home=document.getElementById("scheduleFixtureLocal"),away=document.getElementById("scheduleFixtureVisitor");
+  if(!date||!home||!away)return;
+  const od=date.value,oh=home.value,oa=away.value;
+  date.innerHTML=Array.from({length:20},(_,i)=>`<option value="${i+1}">Fecha ${i+1}</option>`).join("");
+  home.innerHTML=current.teams.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join("");
+  away.innerHTML=current.teams.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join("");
+  if(od)date.value=od;if(current.teams.includes(oh))home.value=oh;if(current.teams.includes(oa))away.value=oa;
+  if(home.value===away.value&&current.teams.length>1)away.value=current.teams.find(t=>t!==home.value)||away.value;
+}
+function fixtureDetails(p){return {date:+p[2]||1,time:p[3]||"",field:p[4]||"",referee:p[5]||""}}
+function renderScheduledFixtures(){
+  const box=document.getElementById("scheduledFixturesList");if(!box)return;
+  if(!current.fixtures.length){box.innerHTML='<div class="card">No hay partidos programados.</div>';return;}
+  const sorted=current.fixtures.map((p,i)=>({p,i})).sort((a,b)=>(+a.p[2]||0)-(+b.p[2]||0));
+  box.innerHTML=sorted.map(({p,i})=>{const d=fixtureDetails(p),played=current.results.some(r=>r.f===d.date&&r.a===p[0]&&r.b===p[1]);return `<div class="scheduled-row"><strong>Fecha ${d.date}</strong> · ${esc(p[0])} <b>VS</b> ${esc(p[1])}${played?' · ✅ Registrado':''}<div class="note">${d.time?'🕐 '+esc(d.time)+' · ':''}${d.field?'🏟️ '+esc(d.field)+' · ':''}${d.referee?'👨‍⚖️ '+esc(d.referee):''}</div><div class="scheduled-actions"><button class="small-btn" type="button" onclick="openFixtureMatch(${i})">📋 ABRIR PARTIDO</button></div></div>`}).join("");
+}
+function renderRegisteredTeams(){
+  const box=document.getElementById("registeredTeamsList");if(!box)return;
+  if(!current.teams.length){box.innerHTML='<div class="card">No hay equipos inscritos.</div>';return;}
+  box.innerHTML=current.teams.map((team,i)=>{const r=getRoster(team),count=r.players.filter(p=>p&&p.name).length;return `<button type="button" class="registered-team-card" onclick="viewRegisteredTeam(${i})"><div class="registered-team-crest">${crestHTML(team)}</div><h3>${esc(team)}</h3><div class="registered-team-meta">${count}/18 jugadores inscritos</div><div class="registered-team-meta">Toca para ver plantilla</div></button>`}).join("");
+}
+function viewRegisteredTeam(index){
+  const team=current.teams[index],box=document.getElementById("registeredTeamPlayers");if(!team||!box)return;const r=getRoster(team);const players=r.players.map((p,i)=>({p,i})).filter(x=>x.p&&x.p.name);
+  box.innerHTML=`<div class="card"><h3>⚽ ${esc(team)} — jugadores inscritos</h3><p class="note">${players.length}/18 jugadores registrados.</p><div class="registered-players-grid">${players.length?players.map(({p,i})=>`<div class="registered-player-card"><div class="registered-player-photo">${p.photo?`<img src="${p.photo}" alt="Foto de ${esc(p.name)}">`:'👤'}</div><b>${esc(p.name)}</b><div class="registered-player-meta">Cupo ${i+1}/18 · ${esc(p.category||'Categoría no registrada')}</div><div class="registered-player-meta">${p.qr?'✅ QR generado':'⚪ QR pendiente'}</div></div>`).join(''):'<div class="card">No hay jugadores inscritos con nombre todavía.</div>'}</div></div>`;
+  box.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function setupScheduleWindow(){
+  renderScheduleControls();renderScheduledFixtures();renderRegisteredTeams();
+  const btn=document.getElementById("saveScheduledFixture");if(btn&&!btn.dataset.bound){btn.dataset.bound="1";btn.addEventListener("click",()=>{const date=+(document.getElementById("scheduleFixtureDate")?.value||0),home=document.getElementById("scheduleFixtureLocal")?.value||"",away=document.getElementById("scheduleFixtureVisitor")?.value||"";if(!home||!away||home===away)return alert("Selecciona dos equipos diferentes.");const time=document.getElementById("scheduleFixtureTime")?.value||"",field=document.getElementById("scheduleFixtureField")?.value.trim()||"",referee=document.getElementById("scheduleFixtureReferee")?.value.trim()||"";current.fixtures.push([home,away,date,time,field,referee]);save();refreshAll();document.getElementById("scheduleFixtureTime").value="";document.getElementById("scheduleFixtureField").value="";document.getElementById("scheduleFixtureReferee").value="";alert(`✅ Partido programado: ${home} vs ${away} · Fecha ${date}${time?' · '+time:''}.`);});}
+}
+function fill(){["local","visitante","fixtureLocal","fixtureVisitor","scorerTeam","cardTeam"].forEach(id=>{let el=document.getElementById(id);if(el)el.innerHTML=current.teams.map(t=>`<option>${t}</option>`).join("")})}
+function refreshNames(){document.getElementById("appTournamentName").textContent=current.name;document.getElementById("homeTournamentName").textContent=current.name;document.querySelectorAll(".sectionTournamentName").forEach(x=>x.textContent=current.name);document.title=current.name}
+function renderTournamentList(){
+  let box=document.getElementById("tournamentList");box.innerHTML="";
+  tournaments.forEach((t,i)=>{
+    let d=document.createElement("div");d.className="tournament-card"+(i===currentIndex?" current":"");
+    d.innerHTML=`<span class="badge">${i===currentIndex?"TORNEO ACTIVO":"TORNEO"}</span><h3>🏆 ${t.name}</h3><p>${t.teams.length} equipos · ${t.results.length} partidos · ${t.fixtures.length} programados</p><button class="small-btn" onclick="openTournament(${i})">ABRIR</button>`;
+    box.appendChild(d);
+  });
+  if(!tournaments.length)box.innerHTML='<div class="card">Aún no hay torneos creados.</div>';
+}
+function openTournament(i){if(!tournaments[i])return;currentIndex=i;current=tournaments[i];save();refreshAll();show("inicio")}
+function createTournament(name){
+  name=(name||"").trim();
+  if(!name)return alert("Escribe el nombre del torneo.");
+  if(tournaments.some(t=>t.name.toLowerCase()===name.toLowerCase()))return alert("Ya existe un torneo con ese nombre.");
+  current=blankTournament(name);tournaments.push(current);currentIndex=tournaments.length-1;save();refreshAll();closeTournamentModal();show("admin");alert(name+" creado. Ahora puedes agregar los equipos del torneo y colocar sus escudos.");
+}
+function openTournamentModal(){document.getElementById("newTournamentName").value="FESTIGOL "+(tournaments.length+1);document.getElementById("tournamentModal").classList.add("show");document.getElementById("tournamentModal").setAttribute("aria-hidden","false");setTimeout(()=>document.getElementById("newTournamentName").focus(),50)}
+function closeTournamentModal(){document.getElementById("tournamentModal").classList.remove("show");document.getElementById("tournamentModal").setAttribute("aria-hidden","true")}
+
+document.getElementById("createTournament").onclick=openTournamentModal;
+document.getElementById("cancelTournament").onclick=closeTournamentModal;
+document.getElementById("confirmTournament").onclick=()=>createTournament(document.getElementById("newTournamentName").value);
+document.getElementById("tournamentModal").addEventListener("click",e=>{if(e.target.id==="tournamentModal")closeTournamentModal()});
+document.getElementById("newTournamentName").addEventListener("keydown",e=>{if(e.key==="Enter")createTournament(e.target.value)});
+
+function renderCardNameFields(type){
+  const count=+(document.getElementById(type+"Count").value||0);
+  const box=document.getElementById(type+"Players");
+  const emoji=type==="yellow"?"🟨":"🟥";
+  const label=type==="yellow"?"Amarilla":"Roja";
+  box.innerHTML=Array.from({length:count},(_,i)=>`<div class="card-entry"><div class="card-number">${emoji} ${label} ${i+1}</div><label>Nombre del jugador<input data-${type}-player="${i}" type="text" placeholder="Nombre de la persona"></label><label>Equipo<select data-${type}-team="${i}">${current.teams.map(t=>`<option>${t}</option>`).join("")}</select></label></div>`).join("");
+}
+function renderGoalNameFields(){
+  const localTeam=document.getElementById("local").value||"Equipo local";
+  const visitorTeam=document.getElementById("visitante").value||"Equipo visitante";
+  const localGoals=Math.max(0,Math.min(20,+document.getElementById("gl").value||0));
+  const visitorGoals=Math.max(0,Math.min(20,+document.getElementById("gv").value||0));
+  const makeFields=(boxId,team,count)=>{
+    const box=document.getElementById(boxId);
+    if(!count){box.innerHTML="";return}
+    box.innerHTML=`<div class="goal-side-title">⚽ ${team} — ${count} gol${count===1?"":"es"}</div>`+Array.from({length:count},(_,i)=>`<div class="goal-entry"><div class="goal-number">⚽ Gol ${i+1}</div><label>Jugador que marcó<input data-goal-team="${team.replace(/&/g,"&amp;").replace(/\"/g,"&quot;")}" data-goal-index="${i}" type="text" placeholder="Nombre del goleador"></label></div>`).join("");
+  };
+  makeFields("homeGoalScorers",localTeam,localGoals);
+  makeFields("awayGoalScorers",visitorTeam,visitorGoals);
+}
+function collectMatchGoals(){
+  const goals=[];
+  [["homeGoalScorers","local","gl"],["awayGoalScorers","visitante","gv"]].forEach(([boxId,teamId,scoreId])=>{
+    const team=document.getElementById(teamId).value||"";
+    const count=Math.max(0,+document.getElementById(scoreId).value||0);
+    for(let i=0;i<count;i++){
+      const p=document.querySelector(`#${boxId} [data-goal-index="${i}"]`)?.value.trim()||"";
+      if(!p) goals.push({error:true});
+      else goals.push({player:p,team});
+    }
+  });
+  return goals;
+}
+function collectMatchCards(){
+  const cards=[];
+  [
+    ["yellow","Amarilla"],
+    ["red","Roja"]
+  ].forEach(([type,cardType])=>{
+    const count=+(document.getElementById(type+"Count").value||0);
+    for(let i=0;i<count;i++){
+      const p=document.querySelector(`[data-${type}-player="${i}"]`)?.value.trim()||"";
+      const team=document.querySelector(`[data-${type}-team="${i}"]`)?.value||"";
+      if(!p||!team) return cards.push({error:true});
+      cards.push({type:cardType,player:p,team});
+    }
+  });
+  return cards;
+}
+document.getElementById("gl").addEventListener("input",renderGoalNameFields);document.getElementById("gv").addEventListener("input",renderGoalNameFields);document.getElementById("local").addEventListener("change",renderGoalNameFields);document.getElementById("visitante").addEventListener("change",renderGoalNameFields);
+document.getElementById("yellowCount").addEventListener("change",()=>renderCardNameFields("yellow"));
+document.getElementById("redCount").addEventListener("change",()=>renderCardNameFields("red"));
+
+document.getElementById("matchProof").addEventListener("change",e=>{const file=e.target.files?.[0],preview=document.getElementById("proofPreview");if(!file){preview.style.display="none";preview.innerHTML="";return}if(!["image/png","image/jpeg","image/webp"].includes(file.type)){alert("Selecciona una imagen PNG, JPG o WEBP.");e.target.value="";return}if(file.size>8*1024*1024){alert("La foto no puede superar 8 MB.");e.target.value="";preview.style.display="none";return}const reader=new FileReader();reader.onload=()=>{preview.innerHTML=`<img src="${reader.result}" alt="Vista previa de la planilla"><span class="proof-badge">✓ Planilla seleccionada</span>`;preview.style.display="block"};reader.readAsDataURL(file)});
+function setRegisterButtonProgress(percent,text){const btn=document.getElementById("registerResultBtn");if(!btn)return;btn.style.setProperty("--progress",Math.max(0,Math.min(100,percent))+"%");if(text)btn.textContent=text;}
+function startRegisterProgress(){const btn=document.getElementById("registerResultBtn");if(!btn)return;btn.disabled=true;btn.classList.remove("registered");btn.classList.add("progressing");setRegisterButtonProgress(8,"⏳ REGISTRANDO... 8%");const start=performance.now(),duration=1200;function tick(now){const p=Math.min(90,8+((now-start)/duration)*82);setRegisterButtonProgress(p,"⏳ REGISTRANDO... "+Math.round(p)+"%");if(p<90)requestAnimationFrame(tick)}requestAnimationFrame(tick)}
+function finishRegisterButton(){const btn=document.getElementById("registerResultBtn");if(!btn)return;btn.classList.remove("progressing");btn.classList.add("registered");setRegisterButtonProgress(100,"✅ PARTIDO REGISTRADO");}
+function resetRegisterButton(){const btn=document.getElementById("registerResultBtn");if(!btn)return;btn.disabled=false;btn.classList.remove("progressing","registered");setRegisterButtonProgress(0,"💾 REGISTRAR RESULTADO");}
+
+document.getElementById("form").addEventListener("submit",e=>{e.preventDefault();let a=local.value,b=visitante.value;if(!a||!b||a===b){alert("Selecciona dos equipos diferentes.");return}const goals=collectMatchGoals();if(goals.some(g=>g.error)){alert("Completa el nombre de cada jugador que marcó un gol.");return}const cards=collectMatchCards();if(cards.some(c=>c.error)){alert("Completa el nombre y equipo de cada jugador que recibió tarjeta.");return}const file=document.getElementById("matchProof").files?.[0];
+startRegisterProgress();
+const sx=+gl.value,sy=+gv.value;const finish=(proofData="",proofName="",proofType="")=>{let f=+fecha.value;const matchId=`${Date.now()}-${Math.random().toString(36).slice(2,8)}`;const match={id:matchId,f,a,b,x:sx,y:sy,time:document.getElementById("matchTime").value,field:document.getElementById("matchField").value.trim(),referee:document.getElementById("matchReferee").value.trim(),cards:cards.map(c=>({...c})),goals:goals.map(g=>({...g})),proof:proofData,proofName,proofType,registeredAt:new Date().toISOString()};current.results.push(match);
+if(!Array.isArray(current.players))current.players=[];goals.forEach(g=>{let p=current.players.find(x=>String(x[0]).trim().toLowerCase()===String(g.player).trim().toLowerCase()&&String(x[1]).trim().toLowerCase()===String(g.team).trim().toLowerCase());if(p)p[2]=(+p[2]||0)+1;else current.players.push([g.player,g.team,1]);});
+if(!Array.isArray(current.cards))current.cards=[];cards.forEach(c=>current.cards.push({player:c.player,team:c.team,type:c.type,fecha:f,partido:`${a} ${sx}-${sy} ${b}`,matchId}));
+current.currentDate=Math.max(current.currentDate,f);save();refreshAll();document.getElementById("form").reset();document.getElementById("gl").value=0;document.getElementById("gv").value=0;renderCardNameFields("yellow");renderCardNameFields("red");renderGoalNameFields();document.getElementById("proofPreview").style.display="none";document.getElementById("proofPreview").innerHTML="";
+const success=document.getElementById("registrationSuccess");if(success){success.innerHTML=`✅ <b>PARTIDO REGISTRADO CORRECTAMENTE</b><br>${esc(a)} <strong>${sx}-${sy}</strong> ${esc(b)} · Fecha ${f}<br><span class="note">El partido quedó guardado en Resultados y las estadísticas fueron actualizadas.</span>`;success.style.display="block";}finishRegisterButton();alert(`✅ Partido registrado correctamente: ${a} ${sx}-${sy} ${b}.`);show("resultados");};
+if(!file){finish();return}if(!["image/png","image/jpeg","image/webp"].includes(file.type)){alert("El soporte debe ser una imagen PNG, JPG o WEBP.");return}if(file.size>8*1024*1024){alert("La foto no puede superar 8 MB.");return}const reader=new FileReader();reader.onload=()=>finish(reader.result,file.name,file.type);reader.readAsDataURL(file);});
+document.getElementById("reset").addEventListener("click",()=>{if(confirm("¿Restablecer los datos de "+current.name+"?")){resetRegisterButton();if(currentIndex===0){current=seedFirst();tournaments[0]=current}else{current=blankTournament(current.name);tournaments[currentIndex]=current}save();refreshAll();renderResults(1)}});
+
+["fecha","local","visitante","gl","gv","matchTime","matchField","matchReferee","yellowCount","redCount","matchProof"].forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener("input",()=>{const btn=document.getElementById("registerResultBtn");if(btn?.classList.contains("registered"))resetRegisterButton()});el.addEventListener("change",()=>{const btn=document.getElementById("registerResultBtn");if(btn?.classList.contains("registered"))resetRegisterButton()})}});
+
+function viewProof(index){const r=current.results[index];if(!r?.proof)return;const w=window.open("","_blank");if(!w){alert("Permite ventanas emergentes para ver la planilla.");return}w.document.write(`<html><head><title>Soporte — ${r.a} ${r.x}-${r.y} ${r.b}</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#111;display:flex;align-items:center;justify-content:center;min-height:100vh"><img src="${r.proof}" style="max-width:100%;max-height:100vh;object-fit:contain"></body></html>`);w.document.close()}
+function matchText(r){let m="🏆 *"+current.name+"*\n⚽ *RESULTADO DEL PARTIDO*\n\n"+r.a+" *"+r.x+" - "+r.y+"* "+r.b+"\n";if(r.f)m+="📅 Fecha: "+r.f+"\n";if(r.time)m+="🕐 Hora: "+r.time+"\n";if(r.field)m+="🏟️ Cancha: "+r.field+"\n";if(r.referee)m+="👨‍⚖️ Árbitro: "+r.referee+"\n";if(Array.isArray(r.goals)&&r.goals.length)m+="\n⚽ *GOLEADORES*\n"+r.goals.map(g=>"• "+g.player+" — "+g.team).join("\n")+"\n";if(Array.isArray(r.cards)&&r.cards.length)m+="\n🟨🟥 *TARJETAS*\n"+r.cards.map(c=>"• "+c.player+" "+(c.type==="Roja"?"🟥":"🟨")+" — "+c.team).join("\n");return m.trim()}
+function sendMatchWA(index){const r=current.results[index];if(r)sendWA(matchText(r))}
+function sendWA(text){window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank")}
+function pad(n,w){return String(n).padStart(w," ")}
+function team(n,w){return String(n).slice(0,w).padEnd(w," ")}
+function tableText(){let rows=table(),m="🏆 *"+current.name+"*\\n📊 *TABLA DE POSICIONES*\\n\\n```\\n#  EQUIPO       PJ PG DG PTS\\n";rows.forEach((x,i)=>{let dg=(x.dg>0?"+":"")+x.dg;m+=pad(i+1,2)+"  "+team(x.n,11)+pad(x.pj,3)+pad(x.pg,3)+pad(dg,4)+pad(x.pts,4)+"\\n"});return m+"```"}
+function tournamentReportPDFLines(){
+ const lines=[];
+ lines.push('FESTIGOL — INFORME OFICIAL DEL TORNEO');
+ lines.push('TORNEO: '+current.name);
+ lines.push('Fecha de generacion: '+new Date().toLocaleDateString('es-CO'));
+ lines.push('');
+ lines.push('TABLA DE POSICIONES');
+ lines.push('POS | EQUIPO | PJ | PG | PE | PP | GF | GC | DG | PTS');
+ table().forEach((x,i)=>lines.push((i+1)+' | '+x.n+' | '+x.pj+' | '+x.pg+' | '+x.pe+' | '+x.pp+' | '+x.gf+' | '+x.gc+' | '+(x.dg>0?'+':'')+x.dg+' | '+x.pts));
+ lines.push('');
+ lines.push('GOLEADORES — TOP 10');
+ const sc=aggregateScorers().slice(0,10);
+ if(!sc.length) lines.push('Sin goles registrados.');
+ sc.forEach((x,i)=>lines.push((i+1)+'. '+x.name+' — '+x.team+' — '+x.goals+' gol'+(x.goals===1?'':'es')));
+ lines.push('');
+ lines.push('VALLA MENOS VENCIDA');
+ const vv=vallaMenosVencida();
+ if(!vv.length) lines.push('Sin equipos registrados.');
+ vv.forEach((x,i)=>lines.push((i+1)+'. '+x.n+' — PJ '+x.pj+' — GC '+x.gc+' — GF '+x.gf+' — DG '+(x.dg>0?'+':'')+x.dg));
+ lines.push('');
+ lines.push('TARJETAS AMARILLAS Y ROJAS');
+ if(!current.cards.length) lines.push('Sin tarjetas registradas.');
+ else current.cards.forEach((c,i)=>lines.push((i+1)+'. '+(c.type==='Roja'?'ROJA':'AMARILLA')+' — '+c.player+' — '+c.team+(c.fecha?' — Fecha '+c.fecha:'')));
+ lines.push('');
+ lines.push('FESTIGOL — '+current.name);
+ return lines;
+}
+function buildTournamentReportPDF(){return buildSimplePDF(tournamentReportPDFLines());}
+async function shareTournamentReportPDF(){
+ const blob=buildTournamentReportPDF();
+ const safe=current.name.replace(/[^a-z0-9áéíóúüñ -]/gi,'').trim().replace(/\s+/g,'_');
+ const file=new File([blob],`FESTIGOL_${safe}_INFORME.pdf`,{type:'application/pdf'});
+ const text='🏆 *'+current.name+'*\n📄 *INFORME OFICIAL DEL TORNEO*\n\nAdjunto encontrarás el PDF con:\n• Tabla de posiciones\n• Goleadores\n• Valla menos vencida\n• Tarjetas amarillas y rojas\n\nFESTIGOL';
+ try{
+   if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
+     await navigator.share({files:[file],title:'Informe '+current.name,text});
+     return;
+   }
+ }catch(e){if(e?.name==='AbortError')return;}
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+ window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+ alert('El PDF fue descargado y WhatsApp fue preparado. En el chat de WhatsApp, adjunta el PDF descargado.');
+}
+function xmlEsc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;")}
+function statsShareText(){return '🏆 *'+current.name+'*\n📊 *ESTADÍSTICAS OFICIALES*\n\nLa imagen contiene:\n• Tabla de posiciones\n• Top 10 goleadores\n• Valla menos vencida\n\nFESTIGOL'}
+function buildStatsShareSVG(){
+ const t=table(), sc=aggregateScorers().slice(0,10), vv=vallaMenosVencida();
+ const W=1080, pad=42, row=54, head=62, title=92, gap=34;
+ const tableRows=Math.max(t.length,1), vallaRows=Math.max(vv.length,1), scorerRows=Math.max(sc.length,1);
+ const H=pad+title+head+tableRows*row+gap+head+scorerRows*row+gap+head+vallaRows*row+pad;
+ let y=pad, out=[];
+ const rect=(x,yy,w,h,fill,rx=0)=>out.push(`<rect x="${x}" y="${yy}" width="${w}" height="${h}" rx="${rx}" fill="${fill}"/>`);
+ const txt=(x,yy,s,size=26,weight=400,anchor="start",fill="#10232d")=>out.push(`<text x="${x}" y="${yy}" font-family="Arial,Helvetica,sans-serif" font-size="${size}px" font-weight="${weight}" text-anchor="${anchor}" fill="${fill}">${xmlEsc(s)}</text>`);
+ const line=(x1,y1,x2,y2,stroke="#d9e1e5")=>out.push(`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${stroke}" stroke-width="1"/>`);
+ rect(0,0,W,H,"#eef3f5");
+ rect(0,0,W,title,"#07324b"); txt(pad,42,"FESTIGOL",34,900,"start","#ffffff"); txt(W-pad,42,current.name||"TORNEO FESTIGOL",28,800,"end","#ffffff"); txt(pad,72,"ESTADÍSTICAS OFICIALES DEL TORNEO",20,700,"start","#bfe8d3");
+ y=pad+title;
+ function section(titleText,headers,widths,rows){
+   rect(pad,y,W-pad*2,head,"#07964a",12); txt(pad+18,y+40,titleText,26,900,"start","#ffffff"); y+=head;
+   rect(pad,y,W-pad*2,row,"#07324b",0); let x=pad;
+   headers.forEach((h,i)=>{txt(x+widths[i]/2,y+35,h,18,900,"middle","#ffffff");x+=widths[i]});
+   y+=row;
+   rows.forEach((r,ri)=>{if(ri%2===0)rect(pad,y,W-pad*2,row,"#ffffff",0); let xx=pad;r.forEach((cell,i)=>{txt(xx+widths[i]/2,y+35,cell,18,i===0?900:500,"middle","#10232d");xx+=widths[i]});line(pad,y+row,W-pad,y+row);y+=row;});
+ }
+ section("🏆 TABLA DE POSICIONES",["POS","EQUIPO","PJ","PG","PE","PP","GF","GC","DG","PTS"],[60,360,70,70,70,70,70,70,90,90],t.map((x,i)=>[String(i+1),x.n,String(x.pj),String(x.pg),String(x.pe),String(x.pp),String(x.gf),String(x.gc),(x.dg>0?"+":"")+x.dg,String(x.pts)]));
+ y+=gap;
+ section("⚽ GOLEADORES — TOP 10",["POS","JUGADOR","EQUIPO","GOLES"],[60,430,430,118],sc.map((x,i)=>[String(i+1),x.name,x.team,String(x.goals)]));
+ y+=gap;
+ section("🧤 VALLA MENOS VENCIDA",["POS","EQUIPO","PJ","GC","GF","DG"],[60,500,100,120,120,138],vv.map((x,i)=>[String(i+1),x.n,String(x.pj),String(x.gc),String(x.gf),(x.dg>0?"+":"")+x.dg]));
+ return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${out.join("")}</svg>`;
+}
+function svgToPNG(svg,width,height){return new Promise((resolve,reject)=>{const blob=new Blob([svg],{type:"image/svg+xml;charset=utf-8"});const url=URL.createObjectURL(blob);const img=new Image();img.onload=()=>{const canvas=document.createElement("canvas");canvas.width=width;canvas.height=height;const ctx=canvas.getContext("2d");ctx.drawImage(img,0,0);URL.revokeObjectURL(url);canvas.toBlob(b=>b?resolve(b):reject(new Error("No se pudo crear la imagen.")),"image/png",1);};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("No se pudo generar la imagen."));};img.src=url;});}
+async function shareTournamentStatsImage(){
+ try{
+   const svg=buildStatsShareSVG();
+   const match=svg.match(/width="(\d+)" height="(\d+)"/); const w=match?+match[1]:1080, h=match?+match[2]:1920;
+   const blob=await svgToPNG(svg,w,h);
+   const safe=(current.name||"TORNEO").replace(/[^a-z0-9áéíóúüñ -]/gi,"").trim().replace(/\s+/g,"_")||"TORNEO";
+   const file=new File([blob],`FESTIGOL_${safe}_ESTADISTICAS.png`,{type:"image/png"});
+   const shareData={files:[file],title:"Estadísticas "+(current.name||"FESTIGOL"),text:statsShareText()};
+   if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){await navigator.share(shareData);return;}
+   const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+   if(navigator.share) await navigator.share({title:shareData.title,text:statsShareText()});
+   alert("La imagen fue generada. En tu teléfono, adjunta la imagen descargada en WhatsApp.");
+ }catch(e){if(e?.name!=="AbortError")alert("No se pudo generar la imagen para WhatsApp. Intenta nuevamente.");}
+}
+function resultsText(){let m="🏆 *"+current.name+"*\n⚽ *RESULTADOS*\n\n";[...new Set(current.results.map(r=>r.f))].sort((a,b)=>a-b).forEach(f=>{m+="*FECHA "+f+"*\n```\n";current.results.filter(r=>r.f===f).forEach(r=>{m+=team(r.a,11)+" "+r.x+" - "+r.y+" "+team(r.b,11)+"\n";if(r.time||r.field||r.referee)m+="Hora: "+(r.time||"—")+" | Cancha: "+(r.field||"—")+" | Árbitro: "+(r.referee||"—")+"\n";if(Array.isArray(r.goals)&&r.goals.length)r.goals.forEach(g=>m+="⚽ "+g.player+" — "+g.team+"\n");if(Array.isArray(r.cards)&&r.cards.length)r.cards.forEach(c=>m+=(c.type==="Roja"?"🟥":"🟨")+" "+c.player+" — "+c.team+"\n");else m+="Sin tarjetas\n"});m+="```\n"});return m.trim()}
+function nextFixtures(){if(!current.fixtures.length)return [];let dates=[...new Set(current.fixtures.map(x=>x[2]||current.currentDate+1))].sort((a,b)=>a-b);let d=dates.find(x=>x>=current.currentDate)||dates[0];return {date:d,items:current.fixtures.filter(x=>(x[2]||current.currentDate+1)===d)}}
+function nextText(){let n=nextFixtures(),m="🏆 *"+current.name+"*\\n📅 *PRÓXIMA FECHA";if(n.items.length)m+=" — FECHA "+n.date+"\\n\\n```\\n";else return m+"*\\nNo hay partidos programados.";n.items.forEach((p,i)=>m+=pad(i+1,2)+"  "+team(p[0],11)+" vs "+team(p[1],11)+"\\n");return m+"```"}
+function scorersText(){let p=aggregateScorers(),m="🏆 *"+current.name+"*\n🥇 *GOLEADORES*\n\n```\n#  JUGADOR       EQUIPO      GOLES\n";p.forEach((x,i)=>m+=pad(i+1,2)+"  "+team(x.name,12)+" "+team(x.team,10)+pad(x.goals,3)+"\n");return m+"```"}
+function cardsText(){let m="🏆 *"+current.name+"*\\n🟨🟥 *TARJETAS*\\n\\n";if(!current.cards.length)return m+"Sin tarjetas registradas.";current.cards.forEach(c=>m+=(c.type==="Roja"?"🟥":"🟨")+" "+c.player+" — "+c.team+"\\n");return m.trim()}
+function fullText(){return tableText()+"\\n\\n"+resultsText()+"\\n\\n"+nextText()+"\\n\\n"+scorersText()+"\\n\\n"+cardsText()+"\\n\\n🤖 *FESTIGOL*\\nInformación oficial de "+current.name+"."}
+document.getElementById("wa").onclick=()=>sendWA(tableText());
+document.getElementById("waTable").onclick=()=>sendWA(tableText());
+document.getElementById("waTableStats")?.addEventListener("click",shareTournamentStatsImage);
+document.getElementById("waResults").onclick=()=>sendWA(resultsText());
+document.getElementById("waNext").onclick=()=>sendWA(nextText());
+document.getElementById("waFull").onclick=()=>sendWA(fullText());
+
+document.querySelectorAll("#resultTabs button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("#resultTabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderResults(+b.dataset.f)}));
+
+function addTeamNow(){
+  const input=document.getElementById("newTeam");
+  const n=(input.value||"").trim();
+  if(!n){alert("Escribe el nombre del equipo.");input.focus();return;}
+  const exists=current.teams.some(t=>String(t).trim().toLowerCase()===n.toLowerCase());
+  if(exists){alert("Ese equipo ya existe en "+current.name+".");input.focus();return;}
+  // Sin límite de cantidad de equipos: se puede repetir este proceso cuantas veces sea necesario.
+  current.teams.push(n);if(!current.rosters)current.rosters={};current.rosters[n]={players:Array.from({length:18},blankPlayer),coach:"",assistant:"",delegateName:"",delegatePhone:""};
+  if(!current.escudos) current.escudos={};
+  input.value="";
+  save();
+  refreshAll();
+  input.focus();
+}
+document.getElementById("addTeam").onclick=addTeamNow;
+document.getElementById("newTeam").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();addTeamNow();}});
+document.getElementById("addFixture").onclick=()=>{let a=fixtureLocal.value,b=fixtureVisitor.value,f=+fixtureDate.value;if(!a||!b||a===b)return alert("Selecciona dos equipos diferentes.");current.fixtures.push([a,b,f]);save();refreshAll();};
+document.getElementById("addScorer").onclick=()=>{let n=scorerName.value.trim(),t=scorerTeam.value,g=+scorerGoals.value;if(!n||!t||g<1)return alert("Completa jugador, equipo y goles.");let p=current.players.find(x=>x[0]===n&&x[1]===t);if(p)p[2]+=g;else current.players.push([n,t,g]);save();refreshAll();};
+document.getElementById("addCard").onclick=()=>{let p=cardPlayer.value.trim(),t=cardTeam.value,ty=cardType.value;if(!p||!t)return alert("Completa jugador y equipo.");current.cards.push({player:p,team:t,type:ty});save();refreshAll();};
+
+
+// ===== PLANTILLAS DE JUGADORES =====
+function blankPlayer(){return {name:"",birth:"",eps:"",category:"",photo:"",idFront:"",idBack:"",badge:"",badgeName:"",badgeGeneratedAt:"",qr:"",qrPayload:"",qrGeneratedAt:""}}
+function getRoster(team){if(!current.rosters||typeof current.rosters!=="object")current.rosters={};if(!current.rosters[team])current.rosters[team]={players:Array.from({length:18},blankPlayer),coach:"",assistant:"",delegateName:"",delegatePhone:""};let r=current.rosters[team];if(!Array.isArray(r.players))r.players=[];while(r.players.length<18)r.players.push(blankPlayer());r.players=r.players.slice(0,18);if(typeof r.coach!=="string")r.coach="";if(typeof r.assistant!=="string")r.assistant="";if(typeof r.delegateName!=="string")r.delegateName="";if(typeof r.delegatePhone!=="string")r.delegatePhone="";return r}
+function renderRosterTeamOptions(){let sel=document.getElementById("rosterTeam");if(!sel)return;let old=sel.value;sel.innerHTML=current.teams.map(t=>`<option value="${t.replace(/\"/g,'&quot;')}">${t}</option>`).join("");if(current.teams.includes(old))sel.value=old;renderRoster()}
+function renderRoster(){let sel=document.getElementById("rosterTeam"),box=document.getElementById("rosterPlayers");if(!sel||!box)return;if(!current.teams.length){sel.innerHTML="";box.innerHTML='<div class="card">Primero agrega al menos un equipo al torneo.</div>';document.getElementById("staffCoach").value="";document.getElementById("staffAssistant").value="";document.getElementById("delegateName").value="";document.getElementById("delegatePhone").value="";return}let team=sel.value||current.teams[0];sel.value=team;let r=getRoster(team);box.innerHTML=r.players.map((p,i)=>`<div class="roster-card"><div class="roster-title"><h3>👤 Jugador ${i+1}</h3><span class="roster-count">Cupo ${i+1}/18</span></div><div class="roster-fields"><label>Nombre completo<input data-player-field="name" data-index="${i}" value="${esc(p.name)}" placeholder="Nombre del jugador"></label><label>Fecha de nacimiento<input data-player-field="birth" data-index="${i}" type="date" value="${esc(p.birth)}"></label><label>EPS<input data-player-field="eps" data-index="${i}" value="${esc(p.eps)}" placeholder="EPS"></label><label>Categoría<input data-player-field="category" data-index="${i}" value="${esc(p.category)}" placeholder="Ej. Sub-15"></label><label class="file-label">📷 Foto del jugador<input data-file-type="photo" data-index="${i}" type="file" accept="image/png,image/jpeg,image/webp" capture="environment"></label><label class="file-label">🪪 Parte delantera — Tarjeta de identidad<input data-file-type="idFront" data-index="${i}" type="file" accept="image/png,image/jpeg,image/webp" capture="environment"></label><label class="file-label">🪪 Parte trasera — Tarjeta de identidad<input data-file-type="idBack" data-index="${i}" type="file" accept="image/png,image/jpeg,image/webp" capture="environment"></label><div class="image-status" data-preview="${i}"><div>${p.photo?'✓ Foto del jugador guardada':'○ Foto del jugador pendiente'}</div><div>${p.idFront?'✓ TI frontal guardada':'○ TI frontal pendiente'}</div><div>${p.idBack?'✓ TI trasera guardada':'○ TI trasera pendiente'}</div></div><div class="badge-actions"><button type="button" class="badge-btn badge-preview-action" data-preview-badge-index="${i}" onclick="previewPlayerBadge(${i})" ${badgeReady(p)?'':'disabled'}>👁️ PREVISUALIZAR ESCARAPELA</button><div class="badge-btn badge-auto-status ${badgeReady(p)?'ready':''}" data-badge-index="${i}">${badgeReady(p)?'🪪 ESCARAPELA + QR LISTOS — SE GENERAN AL GUARDAR':'🪪 COMPLETA LOS DATOS PARA ACTIVAR ESCARAPELA + QR'}</div></div><div class="badge-note">Puedes <b>previsualizar</b> la escarapela antes de guardar. La escarapela definitiva se genera y se guarda únicamente al pulsar <b>GUARDAR PLANILLA DE INSCRIPCIÓN</b>. Los jugadores nuevos se agregan hasta completar los 18 cupos y sus escarapelas quedan guardadas en 🪪 Escarapelas.</div></div></div>`).join("");document.getElementById("staffCoach").value=r.coach;document.getElementById("staffAssistant").value=r.assistant;document.getElementById("delegateName").value=r.delegateName||"";document.getElementById("delegatePhone").value=r.delegatePhone||"";bindRosterInputs();updateBadgeButtons()}
+function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function updateBadgeButtons(){const team=document.getElementById("rosterTeam")?.value;const r=team?getRoster(team):null;document.querySelectorAll("[data-badge-index]").forEach(btn=>{const p=r?.players?.[+btn.dataset.badgeIndex];const ready=badgeReady(p);btn.classList.toggle("ready",ready);btn.textContent=ready?"🪪 ESCARAPELA + QR LISTOS — SE GENERAN AL GUARDAR":"🪪 COMPLETA LOS DATOS PARA ACTIVAR ESCARAPELA + QR"});document.querySelectorAll("[data-preview-badge-index]").forEach(btn=>{const p=r?.players?.[+btn.dataset.previewBadgeIndex];btn.disabled=!badgeReady(p)})}
+function bindRosterInputs(){document.querySelectorAll("[data-player-field]").forEach(el=>el.addEventListener("input",()=>{let r=getRoster(document.getElementById("rosterTeam").value);r.players[+el.dataset.index][el.dataset.playerField]=el.value;updateBadgeButtons()}));document.querySelectorAll("[data-file-type]").forEach(el=>el.addEventListener("change",async()=>{let file=el.files?.[0];if(!file)return;try{let png=await fileToPNG(file);let r=getRoster(document.getElementById("rosterTeam").value);r.players[+el.dataset.index][el.dataset.fileType]=png;save();let prev=document.querySelector(`[data-preview="${el.dataset.index}"]`);if(prev){const p=r.players[+el.dataset.index];prev.innerHTML=`<div>${p.photo?'✓ Foto del jugador guardada':'○ Foto del jugador pendiente'}</div><div>${p.idFront?'✓ TI frontal guardada':'○ TI frontal pendiente'}</div><div>${p.idBack?'✓ TI trasera guardada':'○ TI trasera pendiente'}</div>`;prev.classList.add('saved-flash');setTimeout(()=>prev.classList.remove('saved-flash'),450)} }catch(err){alert(err.message)} updateBadgeButtons()}))}
+function fileToPNG(file){return new Promise((resolve,reject)=>{if(!file.type.startsWith("image/"))return reject(new Error("Selecciona una imagen."));if(file.size>6*1024*1024)return reject(new Error("La imagen no puede superar 6 MB."));let rd=new FileReader();rd.onload=()=>{let img=new Image();img.onload=()=>{let max=1800,scale=Math.min(1,max/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));c.getContext("2d").drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL("image/png"))};img.onerror=()=>reject(new Error("No se pudo leer la imagen."));img.src=rd.result};rd.onerror=()=>reject(new Error("No se pudo leer el archivo."));rd.readAsDataURL(file)})}
+document.getElementById("rosterTeam")?.addEventListener("change",renderRoster);document.getElementById("staffCoach")?.addEventListener("input",()=>{let r=getRoster(document.getElementById("rosterTeam").value);r.coach=document.getElementById("staffCoach").value;save()});document.getElementById("staffAssistant")?.addEventListener("input",()=>{let r=getRoster(document.getElementById("rosterTeam").value);r.assistant=document.getElementById("staffAssistant").value;save()});document.getElementById("delegateName")?.addEventListener("input",()=>{let r=getRoster(document.getElementById("rosterTeam").value);r.delegateName=document.getElementById("delegateName").value;save()});document.getElementById("delegatePhone")?.addEventListener("input",()=>{let r=getRoster(document.getElementById("rosterTeam").value);r.delegatePhone=document.getElementById("delegatePhone").value;save()});document.getElementById("saveRoster")?.addEventListener("click",async()=>{let team=document.getElementById("rosterTeam").value;if(!team)return alert("Selecciona un equipo.");let r=getRoster(team);let incomplete=[];r.players.forEach((p,i)=>{let any=p.name||p.birth||p.eps||p.category||p.photo||p.idFront||p.idBack;if(any&&(!p.name||!p.birth||!p.eps||!p.category||!p.photo||!p.idFront||!p.idBack))incomplete.push(i+1)});if(incomplete.length)return alert("Completa todos los datos y las 3 imágenes de los jugadores: cupos "+incomplete.join(", ")+".");save();const completos=r.players.map((p,i)=>({p,i})).filter(x=>badgeReady(x.p));const nuevos=completos.filter(x=>!x.p.badge||!x.p.qr);if(nuevos.length){const btn=document.getElementById("saveRoster");const oldText=btn.textContent;btn.disabled=true;btn.textContent=`🪪 GENERANDO ${nuevos.length} ESCARAPELA${nuevos.length>1?"S":""}...`;try{for(const x of nuevos)await generatePlayerBadge(x.i,{silent:true});save();}finally{btn.disabled=false;btn.textContent=oldText}}renderRoster();renderSavedBadges();alert(`Planilla de inscripción de ${team} guardada correctamente. ${nuevos.length?nuevos.length+" escarapela"+(nuevos.length>1?"s":"")+" nueva"+(nuevos.length>1?"s":"")+" generada"+(nuevos.length>1?"s":"")+" y guardada en 🪪 Escarapelas.":"No había jugadores nuevos que requirieran escarapela."}`)});
+
+
+// ===== ESCARAPELA AUTOMATICA 9 x 12 CM =====
+const BADGE_W=1063, BADGE_H=1417; // 9 x 12 cm aprox. a 300 DPI
+function badgeReady(p){return !!(p&&p.name&&p.birth&&p.eps&&p.category&&p.photo&&p.idFront&&p.idBack)}
+function badgeSafeName(v){return String(v||"jugador").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9]+/g,"_").replace(/^_|_$/g,"").toLowerCase()||"jugador"}
+function loadImg(src){return new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src})}
+function drawCover(ctx,img,x,y,w,h){const scale=Math.max(w/img.width,h/img.height),nw=img.width*scale,nh=img.height*scale;ctx.drawImage(img,x+(w-nw)/2,y+(h-nh)/2,nw,nh)}
+function roundedRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function playerQRPayload(team,index,p){
+  return JSON.stringify({v:1,kind:"FESTIGOL_PLAYER",team,index,name:p.name,birth:p.birth,eps:p.eps,category:p.category});
+}
+async function makePlayerQR(team,index,p){
+  const payload=playerQRPayload(team,index,p);
+  if(p.qr&&p.qrPayload===payload)return p.qr;
+  if(typeof QRCode==='undefined')throw new Error('No se pudo cargar el generador de códigos QR. Abre FESTIGOL con internet y vuelve a intentarlo.');
+  const holder=document.createElement('div');holder.style.cssText='position:fixed;left:-10000px;top:-10000px;width:220px;height:220px;background:#fff';document.body.appendChild(holder);
+  try{
+    new QRCode(holder,{text:payload,width:200,height:200,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+    await new Promise(r=>setTimeout(r,30));
+    const src=holder.querySelector('canvas')?.toDataURL('image/png')||holder.querySelector('img')?.src;
+    if(!src)throw new Error('No se pudo generar el código QR.');
+    p.qr=src;p.qrPayload=payload;p.qrGeneratedAt=new Date().toISOString();
+    return src;
+  }finally{holder.remove();}
+}
+async function buildPlayerBadgeCanvas(index){
+  const team=document.getElementById('rosterTeam').value; const r=getRoster(team); const p=r.players[index];
+  if(!badgeReady(p))throw new Error('Para ver la escarapela debes completar nombre, fecha de nacimiento, EPS, categoría y las 3 fotografías.');
+  const qr=await makePlayerQR(team,index,p);
+  const canvas=document.createElement('canvas'); canvas.width=BADGE_W; canvas.height=BADGE_H; const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,BADGE_W,BADGE_H);
+  ctx.fillStyle='#083b4d';ctx.fillRect(0,0,BADGE_W,250);ctx.fillStyle='#0aa56a';ctx.fillRect(0,235,BADGE_W,15);
+  const crest=current.escudos&&current.escudos[team];
+  if(crest){try{const ci=await loadImg(crest);drawCover(ctx,ci,55,45,160,160)}catch(e){}}
+  ctx.fillStyle='#ffffff';ctx.font='900 62px Arial';ctx.textAlign='left';ctx.fillText(current.name||'FESTIGOL',245,105);
+  ctx.font='700 34px Arial';ctx.fillText('ACREDITACIÓN OFICIAL',245,165);
+  ctx.save();roundedRect(ctx,130,300,803,600,34);ctx.clip();const pi=await loadImg(p.photo);drawCover(ctx,pi,130,300,803,600);ctx.restore();
+  ctx.strokeStyle='#0aa56a';ctx.lineWidth=12;roundedRect(ctx,130,300,803,600,34);ctx.stroke();
+  ctx.fillStyle='#0b2733';ctx.textAlign='center';ctx.font='900 55px Arial';let name=p.name.toUpperCase();if(name.length>28)ctx.font='900 44px Arial';ctx.fillText(name,BADGE_W/2,990);
+  ctx.fillStyle='#0b5d78';ctx.font='800 38px Arial';ctx.fillText(team,BADGE_W/2,1045);
+  ctx.textAlign='left';ctx.fillStyle='#173944';ctx.font='700 28px Arial';
+  const rows=[['FECHA DE NACIMIENTO',p.birth],['EPS',p.eps],['CATEGORÍA',p.category]];
+  rows.forEach((row,i)=>{const y=1115+i*72;ctx.fillStyle='#5c737b';ctx.font='700 22px Arial';ctx.fillText(row[0],70,y);ctx.fillStyle='#102f3a';ctx.font='800 28px Arial';ctx.fillText(String(row[1]).slice(0,25),390,y);});
+  const qi=await loadImg(qr);ctx.drawImage(qi,755,1070,190,190);ctx.fillStyle='#102f3a';ctx.textAlign='center';ctx.font='800 17px Arial';ctx.fillText('ESCANEA PARA VERIFICAR',850,1280);
+  ctx.fillStyle='#eaf7f1';roundedRect(ctx,95,1325,873,60,18);ctx.fill();ctx.fillStyle='#126443';ctx.textAlign='center';ctx.font='800 22px Arial';ctx.fillText('JUGADOR • FESTIGOL • QR VERIFICABLE',BADGE_W/2,1363);
+  return canvas;
+}
+async function previewPlayerBadge(index){
+  try{
+    const canvas=await buildPlayerBadgeCanvas(index);
+    const img=document.getElementById('badgePreviewImage');
+    img.src=canvas.toDataURL('image/png');
+    document.getElementById('badgePreviewName').textContent=getRoster(document.getElementById('rosterTeam').value).players[index].name;
+    document.getElementById('badgePreviewModal').classList.add('open');
+    document.body.classList.add('modal-open');
+  }catch(err){alert(err.message)}
+}
+function closeBadgePreview(){document.getElementById('badgePreviewModal').classList.remove('open');document.body.classList.remove('modal-open')}
+
+async function generatePlayerBadge(index,options={}){
+  const team=document.getElementById('rosterTeam').value; const r=getRoster(team); const p=r.players[index];
+  if(!badgeReady(p))return false;
+  try{
+    const canvas=await buildPlayerBadgeCanvas(index);
+    const data=canvas.toDataURL('image/png');
+    p.badge=data; p.badgeName=`escarapela_${badgeSafeName(p.name)}.png`; p.badgeGeneratedAt=new Date().toISOString();
+    save(); renderSavedBadges();
+    if(!options.silent)alert(`La escarapela de ${p.name} se genera automáticamente al guardar la planilla.`);
+    return true;
+  }catch(err){if(!options.silent)alert(err.message);return false}
+}
+
+function renderSavedBadges(){
+  const box=document.getElementById("savedBadges"); if(!box)return;
+  const groups=[];
+  current.teams.forEach(team=>{const r=getRoster(team);const players=r.players.map((p,i)=>({p,i})).filter(x=>x.p&&x.p.badge&&x.p.name); if(players.length)groups.push({team,players})});
+  if(!groups.length){box.innerHTML='<div class="card">Aún no hay escarapelas generadas.</div>';return}
+  box.innerHTML=groups.map(g=>`<div class="badge-team-group"><h3>⚽ ${esc(g.team)}</h3>${g.players.map(x=>`<div class="saved-badge-row"><div><b>${esc(x.p.name)}</b><div class="note">Cupo ${x.i+1}/18</div></div><a class="badge-btn" href="${x.p.badge}" download="${esc(x.p.badgeName||('escarapela_'+badgeSafeName(x.p.name)+'.png'))}" style="text-decoration:none">⬇️ DESCARGAR PNG</a></div>`).join('')}</div>`).join('');
+}
+
+function renderAdmin(){
+  let box=document.getElementById("adminTeams");
+  if(!current.teams.length){box.innerHTML="Aún no hay equipos en este torneo."}
+  else{box.innerHTML=current.teams.map((t,i)=>`<div class="team-admin"><div>${crestHTML(t)}</div><div class="team-admin-name">${i+1}. ${t}</div><input class="crest-upload" type="file" accept="image/png,image/jpeg,image/webp" onchange="uploadCrest(${i},this)">${current.escudos&&current.escudos[t]?`<button class="remove-crest" onclick="removeCrest(${i})">QUITAR ESCUDO</button>`:""}</div>`).join("")}
+  let fd=document.getElementById("fixtureDate");fd.innerHTML=Array.from({length:20},(_,i)=>`<option value="${i+1}">Fecha ${i+1}</option>`).join("");
+}
+function uploadCrest(index,input){let file=input.files&&input.files[0];if(!file)return;if(file.size>2*1024*1024){alert("El escudo debe pesar máximo 2 MB.");input.value="";return}let reader=new FileReader();reader.onload=()=>{let name=current.teams[index];current.escudos[name]=reader.result;save();refreshAll()};reader.readAsDataURL(file)}
+function removeCrest(index){let name=current.teams[index];if(current.escudos)delete current.escudos[name];save();refreshAll()}
+function aggregateScorers(){const map=new Map();(current.players||[]).forEach(x=>{const name=String(x[0]||"").trim(),team=String(x[1]||"").trim(),goals=+x[2]||0;if(!name)return;const key=name.toLocaleLowerCase()+"||"+team.toLocaleLowerCase();if(!map.has(key))map.set(key,{name,team,goals:0});map.get(key).goals+=goals;});return [...map.values()].sort((a,b)=>b.goals-a.goals||a.name.localeCompare(b.name,"es"))}
+function renderSummaryScorers(){const b=document.getElementById("summaryScorersBody");if(!b)return;const p=aggregateScorers().slice(0,10);b.innerHTML=p.length?p.map((x,i)=>`<tr><td class="pos">${i+1}</td><td><b>${esc(x.name)}</b></td><td>${esc(x.team)}</td><td><b>${x.goals}</b></td></tr>`).join(""):`<tr><td colspan="4">No hay goleadores registrados.</td></tr>`}
+function renderScorers(){let b=document.getElementById("scorersBody");let p=aggregateScorers();b.innerHTML=p.length?p.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.name)}</td><td>${esc(x.team)}</td><td>${x.goals}</td></tr>`).join(""):`<tr><td colspan="4">No hay goleadores registrados.</td></tr>`}
+function renderCards(){let box=document.getElementById("cardsList");if(!current.cards.length){box.innerHTML='<div class="card">Sin tarjetas registradas.</div>';return}box.innerHTML=current.cards.map(c=>`<div class="card"><b>${esc(c.player)}</b> ${c.type==="Roja"?"🟥":"🟨"} <span class="note">— ${esc(c.team)}</span></div>`).join("")}
+function renderMatchSheetOptions(){const a=document.getElementById("matchSheetHome"),b=document.getElementById("matchSheetAway");if(!a||!b)return;const oldA=a.value,oldB=b.value;const html=current.teams.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join("");a.innerHTML=html;b.innerHTML=html;a.value=current.teams.includes(oldA)?oldA:(current.teams[0]||"");b.value=current.teams.includes(oldB)?oldB:(current.teams[1]||current.teams[0]||"");}
+function getMatchSheetRoster(team){return getRoster(team)}
+function matchStateKey(a,b,date){return `${a}||${b}||${date||""}`}
+function getActiveMatch(){return current.activeMatch||null}
+function setActiveMatch(m){current.activeMatch=m;save()}
+function playerName(team,index){const p=getMatchSheetRoster(team).players[index]||{};return p.name||`Jugador ${index+1}`}
+function escPDF(s){return String(s??"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/[^\\x20-\\x7E]/g,"?")}
+function pdfText(s){return escPDF(s).replace(/\\/g,"\\\\").replace(/\(/g,"\\(").replace(/\)/g,"\\)")}
+function buildSimplePDF(lines){let y=790,content="BT\\n/F1 11 Tf\\n";for(const raw of lines){let text=escPDF(raw);if(text.length>92){const words=text.split(/\\s+/);let part="";for(const w of words){if((part+" "+w).trim().length>92){content+=`1 0 0 1 45 ${y} Tm (${pdfText(part.trim())}) Tj\\n`;y-=15;if(y<45){content+="ET\\n";return makePDF(content)}part=w}else part=(part+" "+w).trim()}if(part){content+=`1 0 0 1 45 ${y} Tm (${pdfText(part)}) Tj\\n`;y-=15}}else{content+=`1 0 0 1 45 ${y} Tm (${pdfText(text)}) Tj\\n`;y-=17}if(y<45){content+="ET\\n";return makePDF(content)}}content+="ET\\n";return makePDF(content)}
+function makePDF(content){const objects=[];objects.push("<< /Type /Catalog /Pages 2 0 R >>");objects.push("<< /Type /Pages /Kids [3 0 R] /Count 1 >>");objects.push("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>");objects.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");objects.push(`<< /Length ${content.length} >>\\nstream\\n${content}endstream`);let pdf="%PDF-1.4\\n",offs=[0];objects.forEach((o,i)=>{offs.push(pdf.length);pdf+=`${i+1} 0 obj\\n${o}\\nendobj\\n`});const xref=pdf.length;pdf+=`xref\\n0 ${objects.length+1}\\n0000000000 65535 f \\n`;for(let i=1;i<offs.length;i++)pdf+=String(offs[i]).padStart(10,"0")+" 00000 n \\n";pdf+=`trailer\\n<< /Size ${objects.length+1} /Root 1 0 R >>\\nstartxref\\n${xref}\\n%%EOF`;return new Blob([pdf],{type:"application/pdf"})}
+function pdfEsc(s){return String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[\r\n\u0000-\u001F]/g,' ').replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)')}
+function buildMatchPDFPages(pages){
+ const objects=[]; const pageRefs=[]; const fontObj=objects.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>'); const boldObj=objects.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>');
+ pages.forEach(content=>{const stream=content.join('\n')+'\n';const cobj=objects.push(`<< /Length ${stream.length} >>\nstream\n${stream}endstream`);const pobj=objects.push(`<< /Type /Page /Parent PAGESREF 0 R /MediaBox [0 0 842 595] /Resources << /Font << /F1 ${fontObj} 0 R /F2 ${boldObj} 0 R >> >> /Contents ${cobj} 0 R >>`);pageRefs.push(pobj)});
+ const pagesObj=objects.push(`<< /Type /Pages /Kids [${pageRefs.map(x=>x+' 0 R').join(' ')}] /Count ${pageRefs.length} >>`); const catalogObj=objects.push(`<< /Type /Catalog /Pages ${pagesObj} 0 R >>`); pageRefs.forEach(ref=>{objects[ref-1]=objects[ref-1].replace('PAGESREF',String(pagesObj))});
+ let pdf='%PDF-1.4\n',offs=[0]; objects.forEach((o,i)=>{offs.push(pdf.length);pdf+=`${i+1} 0 obj\n${o}\nendobj\n`}); const xref=pdf.length; pdf+=`xref\n0 ${objects.length+1}\n0000000000 65535 f \n`; for(let i=1;i<offs.length;i++)pdf+=String(offs[i]).padStart(10,'0')+' 00000 n \n'; pdf+=`trailer\n<< /Size ${objects.length+1} /Root ${catalogObj} 0 R >>\nstartxref\n${xref}\n%%EOF`; return new Blob([pdf],{type:'application/pdf'});
+}
+function normalizeWhatsAppPhone(v){let d=String(v||"").replace(/\D/g,"");if(d.startsWith("00"))d=d.slice(2);if(d.length===10&&d.startsWith("3"))d="57"+d;return d}
+function delegateInfo(team){const r=getRoster(team);return {name:r.delegateName||"Delegado",phone:normalizeWhatsAppPhone(r.delegatePhone)}}
+function matchPDFMessage(m,recipient){return `🏆 *${current.name}*\n📋 *PLANILLA OFICIAL DE PARTIDO*\n\n⚽ ${m.home} *${m.scoreHome} - ${m.scoreAway}* ${m.away}\n📅 Fecha: ${m.date||"—"}\n🕐 Hora: ${m.time||"—"}\n🏟️ Cancha: ${m.field||"—"}\n\nAdjunto encontrarás la planilla oficial del partido.\n\nFESTIGOL · ${recipient}` }
+function downloadAndOpenDelegateWhatsApp(){const m=getActiveMatch();if(!m)return alert("Primero carga una planilla de partido.");if(!m.finished)return alert("Finaliza y guarda el partido antes de enviarlo por WhatsApp.");const d1=delegateInfo(m.home),d2=delegateInfo(m.away);const missing=[];if(!d1.phone)missing.push(m.home);if(!d2.phone)missing.push(m.away);if(missing.length)return alert("Falta registrar el WhatsApp del delegado de: "+missing.join(", ")+". Ve a Plantillas y guarda el número.");downloadMatchPDF();const urls=[{phone:d1.phone,msg:matchPDFMessage(m,d1.name+" · "+m.home)},{phone:d2.phone,msg:matchPDFMessage(m,d2.name+" · "+m.away)}].map(x=>`https://wa.me/${x.phone}?text=${encodeURIComponent(x.msg)}`);let blocked=0;urls.forEach(u=>{const w=window.open(u,"_blank");if(!w)blocked++});setTimeout(()=>{if(blocked)alert("El PDF fue descargado. El navegador bloqueó una de las ventanas de WhatsApp; usa los botones individuales de la planilla.");else alert("✅ PDF descargado y WhatsApp preparado para los dos delegados.\n\nEn esta versión de navegador debes confirmar el envío y adjuntar el PDF descargado en cada chat.\nLa entrega automática del archivo sin intervención requiere WhatsApp Business Cloud API + backend.");},400)}
+function openDelegateWhatsApp(team){const m=getActiveMatch();const d=delegateInfo(team);if(!m||!m.finished)return alert("Finaliza y guarda el partido primero.");if(!d.phone)return alert("Registra primero el WhatsApp del delegado de "+team+" en Plantillas.");window.open(`https://wa.me/${d.phone}?text=${encodeURIComponent(matchPDFMessage(m,d.name+" · "+team))}`,"_blank")}
+
+function downloadMatchPDF(){
+ const m=getActiveMatch();
+ if(!m)return alert('Primero carga y guarda una planilla de partido.');
+ if(!m.finished)return alert('Finaliza y guarda el partido antes de generar el PDF oficial.');
+
+ /* V37.11 — PLANILLA OFICIAL LANDSCAPE.
+    Diseño deportivo, limpio y legible. Sin firmas de árbitro ni planillero.
+    Incluye página 2 con tabla de posiciones, goleadores y valla menos vencida. */
+ const W=842,H=595,pages=[];
+ const C={
+  navy:[0.025,0.12,0.20],blue:[0.02,0.38,0.62],red:[0.82,0.06,0.10],
+  green:[0.02,0.55,0.30],lime:[0.68,0.90,0.25],yellow:[1,0.78,0.05],
+  pale:[0.94,0.96,0.97],line:[0.78,0.82,0.85],dark:[0.08,0.12,0.16],
+  white:[1,1,1],softred:[1,0.94,0.94],softblue:[0.94,0.97,1],
+  softgreen:[0.91,0.98,0.94],gray:[0.38,0.43,0.47]
+ };
+ const rect=(a,x,y,w,h,c)=>a.push(`${c[0]} ${c[1]} ${c[2]} rg ${x} ${y} ${w} ${h} re f`);
+ const strokeRect=(a,x,y,w,h,c=C.line)=>a.push(`0.55 w ${c[0]} ${c[1]} ${c[2]} RG ${x} ${y} ${w} ${h} re S`);
+ const line=(a,x1,y1,x2,y2,c=C.line)=>a.push(`0.55 w ${c[0]} ${c[1]} ${c[2]} RG ${x1} ${y1} m ${x2} ${y2} l S`);
+ const txt=(a,x,y,t,size=7,b=false,c=C.dark)=>a.push(`${c[0]} ${c[1]} ${c[2]} rg /${b?'F2':'F1'} ${size} Tf 1 0 0 1 ${x} ${y} Tm (${pdfEsc(t)}) Tj`);
+ const stringWidthPDF=(s,size,b)=>String(s||'').length*size*(b?.53:.49);
+ const centered=(a,x,y,w,t,size=7,b=false,c=C.dark)=>{const s=String(t||''),ww=stringWidthPDF(s,size,b);txt(a,x+Math.max(0,(w-ww)/2),y,s,size,b,c)};
+ const wrap=(s,max)=>{const words=String(s||'').split(/\s+/),out=[];let cur='';for(const w of words){if((cur+' '+w).trim().length>max){if(cur)out.push(cur);cur=w}else cur=(cur+' '+w).trim()}if(cur)out.push(cur);return out};
+ const badge=(a,x,y,label,bg,fg=C.white,w=20,h=9)=>{rect(a,x,y,w,h,bg);centered(a,x,y+2.4,w,label,5.0,true,fg)};
+ const section=(a,x,y,w,t,c=C.navy)=>{rect(a,x,y,w,16,c);txt(a,x+7,y+4.8,t,7.2,true,C.white)};
+
+ const evs=[...(m.events||[])].sort((a,b)=>(+a.minute||999)- (+b.minute||999));
+ const goals=evs.filter(e=>e.type==='Gol'), yellows=evs.filter(e=>e.type==='Amarilla'), reds=evs.filter(e=>e.type==='Roja'), changes=evs.filter(e=>e.type==='Cambio');
+ function playerInc(team,i){
+  const ee=evs.filter(e=>e.team===team&&(e.index===i||e.outIndex===i||e.inIndex===i));
+  return {
+   goals:ee.filter(e=>e.type==='Gol'&&e.index===i),
+   yellow:ee.filter(e=>e.type==='Amarilla'&&e.index===i),
+   red:ee.filter(e=>e.type==='Roja'&&e.index===i),
+   ins:ee.filter(e=>e.type==='Cambio'&&e.inIndex===i),
+   outs:ee.filter(e=>e.type==='Cambio'&&e.outIndex===i)
+  };
+ }
+ function escudo(a,x,y,team,accent){
+  rect(a,x,y,34,34,accent);rect(a,x+3,y+4,28,24,C.white);
+  centered(a,x+3,y+13,28,String(team).slice(0,7),5.2,true,accent);
+ }
+ function teamTable(a,team,x,y,w,accent){
+  const roster=getMatchSheetRoster(team).players||[], t=m.teams[team]||{starting:[]};
+  const heads=['N°','JUGADOR','TIT','ENT','SAL','⚽','AM','RO'];
+  const widths=[24,132,34,34,34,34,34,34];
+  rect(a,x,y,w,18,accent);txt(a,x+7,y+5.5,`${team} · ${x<421?'LOCAL':'VISITANTE'}`,8,true,C.white);
+  let xx=x;rect(a,x,y-16,w,16,C.pale);
+  heads.forEach((h,j)=>{centered(a,xx,y-11,widths[j],h,5.2,true,C.navy);xx+=widths[j]});
+  let yy=y-28;
+  roster.slice(0,18).forEach((pl,i)=>{
+   rect(a,x,yy-4,w,12,i%2?C.white:[0.965,0.975,0.98]);
+   let xx=x,inc=playerInc(team,i);
+   centered(a,xx,yy-1,widths[0],String(i+1),5.3,true,C.navy);xx+=widths[0];
+   txt(a,xx+3,yy-1,String(pl.name||`Jugador ${i+1}`).slice(0,25),5.35,!!t.starting?.includes(i),C.dark);xx+=widths[1];
+   centered(a,xx,yy-1,widths[2],t.starting?.includes(i)?'✓':'',5.6,true,C.green);xx+=widths[2];
+   centered(a,xx,yy-1,widths[3],inc.ins.length?String(inc.ins[0].minute||''):'',5.0,true,C.green);xx+=widths[3];
+   centered(a,xx,yy-1,widths[4],inc.outs.length?String(inc.outs[0].minute||''):'',5.0,true,C.red);xx+=widths[4];
+   if(inc.goals.length)badge(a,xx+4,yy-3,'GOL',C.green,C.white,24,9);xx+=widths[5];
+   if(inc.yellow.length)badge(a,xx+4,yy-3,'AM',C.yellow,C.dark,24,9);xx+=widths[6];
+   if(inc.red.length)badge(a,xx+4,yy-3,'RO',C.red,C.white,24,9);
+   line(a,x,yy-4,x+w,yy-4); yy-=12;
+  });
+  const coach=getRoster(team).coach||'', assistant=getRoster(team).assistant||'';
+  rect(a,x,yy-2,w,18,C.pale);
+  txt(a,x+7,yy+4,'D.T.',5.3,true,C.navy);txt(a,x+30,yy+4,String(coach).slice(0,28),5.2,false,C.dark);
+  txt(a,x+180,yy+4,'A.T.',5.3,true,C.navy);txt(a,x+203,yy+4,String(assistant).slice(0,24),5.2,false,C.dark);
+ }
+
+ const p=[];pages.push(p);
+ rect(p,0,0,W,H,C.white);
+
+ // CABECERA DEPORTIVA
+ rect(p,0,545,W,50,C.navy);
+ rect(p,14,552,130,36,C.green);
+ txt(p,23,571,'FESTIGOL',17,true,C.white);
+ txt(p,23,558,'PLANILLA OFICIAL',5.6,false,C.white);
+ centered(p,165,576,430,current.name||'TORNEO',15,true,C.white);
+ centered(p,165,560,430,`CATEGORÍA ${current.category||'—'}  ·  JORNADA ${m.fixture||'—'}`,7.5,true,C.lime);
+ txt(p,690,576,'PARTIDO',6,true,C.lime);
+ txt(p,690,560,130,`Fecha ${m.fixture||'—'}`,8,true,C.white);
+
+ // DATOS DEL PARTIDO — la hora queda claramente visible
+ rect(p,14,512,814,25,C.pale);strokeRect(p,14,512,814,25);
+ const meta=[
+  ['📅 FECHA',m.date||'—',18,130],
+  ['🕐 HORA',m.time||'—',148,110],
+  ['🏟 CANCHA',m.field||'—',258,170],
+  ['📍 CIUDAD',m.city||current.city||'—',428,145],
+  ['👨‍⚖ ÁRBITRO',m.referee||'—',573,180],
+  ['ESTADO','FINALIZADO',753,70]
+ ];
+ meta.forEach(([h,v,x,w])=>{
+  txt(p,x,527,h,5.1,true,C.navy);txt(p,x,516,String(v).slice(0,25),6.6,h==='ESTADO',h==='ESTADO'?C.green:C.dark);
+  if(x>18)line(p,x-5,512,x-5,537);
+ });
+
+ // MARCADOR PRINCIPAL
+ rect(p,14,448,814,56,C.white);strokeRect(p,14,448,814,56);
+ rect(p,20,454,270,44,C.red);rect(p,552,454,270,44,C.blue);
+ escudo(p,30,459,m.home,C.red);escudo(p,768,459,m.away,C.blue);
+ centered(p,68,477,190,String(m.home).slice(0,22),12,true,C.white);
+ centered(p,562,477,190,String(m.away).slice(0,22),12,true,C.white);
+ centered(p,292,478,260,`${m.scoreHome}  -  ${m.scoreAway}`,23,true,C.navy);
+ centered(p,292,460,260,'RESULTADO FINAL',6.2,true,C.green);
+
+ // TABLAS DE JUGADORES
+ teamTable(p,m.home,14,425,400,C.red);
+ teamTable(p,m.away,428,425,400,C.blue);
+
+ // RESUMEN INFERIOR
+ section(p,14,68,196,'GOL  ·  GOLES DEL PARTIDO',C.green);
+ section(p,216,68,196,'CAMBIOS',C.blue);
+ section(p,418,68,196,'TARJETAS',C.navy);
+ section(p,620,68,208,'OBSERVACIONES',C.navy);
+
+ let y1=55;
+ if(!goals.length)txt(p,20,y1,'Sin goles registrados',5.7,false,C.gray);
+ goals.slice(0,3).forEach(e=>{
+   badge(p,20,y1-3,'GOL',C.green,C.white,25,9);
+   txt(p,50,y1,`${e.minute||'--'}'`,5.5,true,C.green);
+   txt(p,73,y1,`${String(e.team).slice(0,10)} · ${String(e.playerName||'').slice(0,17)}`,5.0,false,C.dark);
+   y1-=11
+ });
+
+ let y2=55;
+ if(!changes.length)txt(p,222,y2,'Sin cambios registrados',5.7,false,C.gray);
+ changes.slice(0,3).forEach(e=>{txt(p,222,y2,`${e.minute||'--'}'`,5.5,true,C.blue);txt(p,247,y2,`${String(e.team).slice(0,9)}: ${String(e.outName||'').slice(0,8)} → ${String(e.inName||'').slice(0,8)}`,4.8,false,C.dark);y2-=11});
+
+ let y3=55;const cards=[...yellows,...reds];
+ if(!cards.length)txt(p,424,y3,'Sin tarjetas registradas',5.7,false,C.gray);
+ cards.slice(0,3).forEach(e=>{badge(p,424,y3-3,e.type==='Roja'?'RO':'AM',e.type==='Roja'?C.red:C.yellow,e.type==='Roja'?C.white:C.dark,22,8);txt(p,451,y3,`${e.minute||'--'}' ${String(e.team).slice(0,9)} · ${String(e.playerName||'').slice(0,16)}`,4.8,false,C.dark);y3-=11});
+
+ let oy=55;
+ wrap(m.observation||'Sin observaciones registradas.',38).slice(0,3).forEach(v=>{txt(p,626,oy,v,5.1,false,C.dark);oy-=10});
+
+ // PIE PÁGINA 1
+ line(p,14,20,828,20,C.line);
+ txt(p,20,9,'FESTIGOL',6.5,true,C.navy);
+ centered(p,180,9,430,`${current.name||'FESTIGOL'} · ${current.category||'—'} · Planilla oficial`,5.0,false,C.gray);
+ txt(p,722,9,'Página 1 de 2',5.0,false,C.gray);
+
+ // PÁGINA 2 — ESTADÍSTICAS OFICIALES DEL TORNEO
+ const p2=[];pages.push(p2);
+ rect(p2,0,0,W,H,C.white);
+ rect(p2,0,545,W,50,C.navy);
+ rect(p2,14,552,130,36,C.green);
+ txt(p2,23,571,'FESTIGOL',17,true,C.white);
+ txt(p2,23,558,'ESTADÍSTICAS OFICIALES',5.6,false,C.white);
+ centered(p2,165,576,500,current.name||'TORNEO',15,true,C.white);
+ centered(p2,165,560,500,'TABLA  ·  GOLEADORES  ·  VALLA MENOS VENCIDA',7.2,true,C.lime);
+
+ const statsTable=(a,x,y,w,title,headers,widths,rows,accent)=>{
+   rect(a,x,y,w,20,accent);
+   txt(a,x+8,y+6.2,title,7.2,true,C.white);
+   let yy=y-20;
+   rect(a,x,yy,w,18,C.pale);
+   let xx=x;
+   headers.forEach((h,i)=>{centered(a,xx,yy+5.3,widths[i],h,4.8,true,C.navy);xx+=widths[i]});
+   yy-=18;
+   if(!rows.length){rect(a,x,yy-20,w,20,C.white);centered(a,x,yy-14,w,'Sin datos registrados',5.2,false,C.gray);return;}
+   rows.forEach((r,i)=>{
+     const rh=20;
+     rect(a,x,yy-rh,w,rh,i%2?C.white:[0.965,0.975,0.98]);
+     let xx=x;
+     r.forEach((v,j)=>{
+       const val=String(v??'');
+       if(j===0 || j===r.length-1) centered(a,xx,yy-13,widths[j],val,5.0,j===0||j===r.length-1,j===r.length-1?C.green:C.navy);
+       else txt(a,xx+3,yy-13,val.slice(0,30),5.0,j===1,C.dark);
+       xx+=widths[j];
+     });
+     line(a,x,yy-rh,x+w,yy-rh);
+     yy-=rh;
+   });
+ };
+
+ const st=table().slice(0,10).map((x,i)=>[i+1,x.n,x.pj,x.gf,x.gc,x.dg>0?'+'+x.dg:String(x.dg),x.pts]);
+ const sc2=aggregateScorers().slice(0,10).map((x,i)=>[i+1,x.name,x.team,x.goals]);
+ const vv2=vallaMenosVencida().slice(0,10).map((x,i)=>[i+1,x.n,x.pj,x.gc,x.gf,x.dg>0?'+'+x.dg:String(x.dg)]);
+ statsTable(p2,14,510,260,'TABLA DE POSICIONES',['POS','EQUIPO','PJ','GF','GC','DG','PTS'],[24,94,26,28,28,28,32],st,C.green);
+ statsTable(p2,291,510,260,'GOLEADORES · TOP 10',['POS','JUGADOR','EQUIPO','GOLES'],[24,94,94,48],sc2,C.blue);
+ statsTable(p2,568,510,260,'VALLA MENOS VENCIDA',['POS','EQUIPO','PJ','GC','GF','DG'],[24,94,28,34,34,46],vv2,C.navy);
+
+ line(p2,14,20,828,20,C.line);
+ txt(p2,20,9,'FESTIGOL',6.5,true,C.navy);
+ centered(p2,180,9,430,`${current.name||'FESTIGOL'} · Estadísticas oficiales`,5.0,false,C.gray);
+ txt(p2,722,9,'Página 2 de 2',5.0,false,C.gray);
+
+ const blob=buildMatchPDFPages(pages);
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;
+ a.download=`FESTIGOL_${m.home}_vs_${m.away}_${m.date||'partido'}_OFICIAL.pdf`;
+ a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1200);
+}
+
+function getEligibleRosterIndexes(team){
+  // En la planilla no se exige una cantidad fija de jugadores ni que la ficha documental esté completa.
+  // Todo jugador cargado en la plantilla puede ser seleccionado manualmente.
+  const r=getRoster(team);
+  return r.players.map((p,i)=>({p,i})).filter(x=>!!(x.p&&String(x.p.name||'').trim())).map(x=>x.i);
+}
+function getRosterIndexesForManual(team){
+  const r=getRoster(team);
+  return r.players.map((p,i)=>({p,i})).filter(x=>x.p&&x.p.name).map(x=>x.i);
+}
+function renderPlayerQRThumb(p){return p?.qr?`<img src="${p.qr}" alt="QR" style="width:38px;height:38px;object-fit:contain;border-radius:5px;background:#fff;border:1px solid #d8e2e6">`:`<span title="QR pendiente">⚠️</span>`}
+function parsePlayerQR(raw){try{const o=JSON.parse(raw);if(o&&o.kind==='FESTIGOL_PLAYER'&&o.team&&Number.isInteger(+o.index))return o}catch(e){}return null}
+function findPlayerFromQR(team,raw){const q=parsePlayerQR(raw);if(!q)return {error:'El código no es una escarapela QR válida de FESTIGOL.'};if(q.team!==team)return {error:`Este QR pertenece a ${q.team}, no a ${team}.`};const r=getRoster(team),i=+q.index,p=r.players[i];if(!p||!String(p.name||'').trim()||!p.qr)return {error:'El jugador no está cargado en la plantilla o no tiene QR.'};const expected=playerQRPayload(team,i,p);if(q.name!==p.name||q.birth!==p.birth||q.category!==p.category||raw!==expected)return {error:'El QR no coincide con la información vigente del jugador.'};return {index:i,player:p}}
+function openPlayerQRScanner(team,onValid){
+  const id='playerQRModal';document.getElementById(id)?.remove();
+  document.body.insertAdjacentHTML('beforeend',`<div class="modal show" id="${id}"><div class="modal-box"><h2>📷 Escanear QR — ${esc(team)}</h2><p class="note">Puedes usar la cámara en vivo o tomar una foto del QR. Solo se aceptan jugadores inscritos y habilitados del equipo.</p><video id="playerQRVideo" class="qr-video active" playsinline muted></video><div id="playerQRStatus" class="note">Listo para escanear.</div><div class="modal-actions"><button class="small-btn" type="button" id="openLiveCamera">📷 ABRIR CÁMARA</button><button class="small-btn" type="button" id="scanQRPhoto">📸 ESCANEAR FOTO</button><input id="qrPhotoInput" type="file" accept="image/*" capture="environment" style="display:none"><button class="action gray" type="button" id="closePlayerQR">Cancelar</button></div></div></div>`);
+  const modal=document.getElementById(id),video=document.getElementById('playerQRVideo'),status=document.getElementById('playerQRStatus');let stream=null,scanning=false,detector=null;
+  const close=()=>{scanning=false;if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;modal.remove()};
+  document.getElementById('closePlayerQR').onclick=close;
+  const acceptRaw=(raw)=>{const found=findPlayerFromQR(team,raw);if(found.error){status.textContent='❌ '+found.error;return false}status.textContent=`✅ ${found.player.name} verificado.`;onValid(found.index,found.player);close();return true};
+  document.getElementById('scanQRPhoto').onclick=()=>document.getElementById('qrPhotoInput').click();
+  document.getElementById('qrPhotoInput').onchange=async(e)=>{const file=e.target.files?.[0];if(!file)return;try{if(typeof jsQR!=='function'){status.textContent='⚠️ No se pudo cargar el lector QR. Intenta ABRIR CÁMARA.';return}const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const max=1600,scale=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight));c.width=Math.round(img.naturalWidth*scale);c.height=Math.round(img.naturalHeight*scale);const ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,c.width,c.height);const data=ctx.getImageData(0,0,c.width,c.height);const code=jsQR(data.data,data.width,data.height,{inversionAttempts:'attemptBoth'});if(!code)status.textContent='❌ No se encontró un QR en la foto. Acércate al código e inténtalo de nuevo.';else acceptRaw(code.data)};img.onerror=()=>status.textContent='⚠️ No se pudo leer la foto.';img.src=URL.createObjectURL(file)}catch(e){status.textContent='⚠️ No se pudo procesar la imagen.'}};
+  document.getElementById('openLiveCamera').onclick=async()=>{try{if(!navigator.mediaDevices?.getUserMedia)throw new Error('camera');stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});video.srcObject=stream;video.classList.add('active');await video.play();scanning=true;status.textContent='🟢 Cámara activa. Apunta al QR del jugador.';const useDetector=async()=>{try{if('BarcodeDetector' in window){const formats=await BarcodeDetector.getSupportedFormats();if(formats.includes('qr_code')){detector=new BarcodeDetector({formats:['qr_code']});return true}}}catch(e){}return false};const detectorOK=await useDetector();const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{willReadFrequently:true});const loop=async()=>{if(!scanning)return;try{if(detectorOK){const codes=await detector.detect(video);if(codes.length&&acceptRaw(codes[0].rawValue||''))return}else if(typeof jsQR==='function'&&video.videoWidth){canvas.width=video.videoWidth;canvas.height=video.videoHeight;ctx.drawImage(video,0,0,canvas.width,canvas.height);const data=ctx.getImageData(0,0,canvas.width,canvas.height);const code=jsQR(data.data,data.width,data.height,{inversionAttempts:'attemptBoth'});if(code&&acceptRaw(code.data))return}}catch(e){}requestAnimationFrame(loop)};loop()}catch(e){status.textContent='⚠️ No se pudo abrir la cámara. Revisa el permiso de cámara del navegador.'}};
+}
+function addScannedStarter(m,team,index){const t=m.teams[team];const eligible=getEligibleRosterIndexes(team);if(!eligible.includes(index))return alert('Este jugador no está inscrito y habilitado para este partido.');if(t.starting.includes(index))return alert('Este jugador ya está en la planilla.');t.starting.push(index);if(!t.active.includes(index))t.active.push(index);save();renderMatchSheet()}
+function renderMatchSheet(){
+ const box=document.getElementById('matchSheetResult'),m=getActiveMatch(); if(!box)return; if(!m){box.innerHTML='';return}
+ const teamBlock=(team,kind)=>{const r=getRoster(team),t=m.teams[team],star=new Set(t.starting),eligible=getEligibleRosterIndexes(team),qrEligible=eligible.filter(i=>r.players[i]?.qr);return `<div class="match-sheet-team ${kind}"><h3>${kind==='red'?'🔴':'⚪'} ${esc(team)}</h3><div class="sheet-status"><b>Jugadores seleccionados: ${t.starting.length}</b> · En cancha: ${t.active.length} · Inscritos: ${eligible.length}/18</div><div class="selection-mode"><b>Elige cómo inscribir:</b> <span>☑️ Selección manual</span> <span>📷 Escaneo QR</span></div><div class="sheet-scan-actions"><button class="small-btn" type="button" ${m.locked?'disabled':''} onclick="openPlayerQRScanner('${esc(team)}',(i)=>addScannedStarter(getActiveMatch(),'${esc(team)}',i))">📷 ESCANEAR QR DEL JUGADOR</button><span class="note">${qrEligible.length?qrEligible.length+' jugador(es) con QR listo':'Los jugadores con escarapela QR pueden agregarse por escaneo'}</span></div>${getRosterIndexesForManual(team).length?`<div class="manual-list-title">☑️ SELECCIONAR DESDE LA PLANTILLA</div>`+getRosterIndexesForManual(team).map(i=>{const p=r.players[i],ok=eligible.includes(i),inc=m.events.filter(e=>e.team===team&&e.index===i),g=inc.filter(e=>e.type==='Gol').length,y=inc.filter(e=>e.type==='Amarilla').length,red=inc.filter(e=>e.type==='Roja').length,ch=inc.filter(e=>e.type==='Cambio').length;return `<label class="sheet-player ${ok?'':'sheet-player-disabled'}"><input type="checkbox" data-starter-team="${esc(team)}" data-starter-index="${i}" ${star.has(i)?'checked':''} ${(m.locked)?'disabled':''}><span class="num">${i+1}</span><span class="name">${esc(p.name)}</span>${p.qr?renderPlayerQRThumb(p):'<span class="qr-pending" title="Sin QR">QR pendiente</span>'}${star.has(i)?'<span class="starting-badge">TITULAR</span>':''}<span class="incident-badges">${g?`<b class="inc-gol">⚽${g>1?' '+g:''}</b>`:''}${y?`<b class="inc-yellow">🟨${y>1?' '+y:''}</b>`:''}${red?`<b class="inc-red">🟥${red>1?' '+red:''}</b>`:''}${ch?`<b class="inc-change">🔄</b>`:''}</span></label>`}).join(''):`<div class="sheet-status">⚠️ No hay jugadores cargados en la plantilla. Puedes agregarlos en 👥 Plantillas.</div>`}<div class="sheet-count">${t.starting.length?`✅ ${t.starting.length} jugador(es) seleccionado(s)`: '⚠️ Aún no has seleccionado jugadores'}</div></div>`};
+ const officialData=`<div class="official-sheet-ui"><div class="official-head"><div class="official-head-top"><div><div class="official-brand">FESTIGOL</div><div class="official-kicker">SISTEMA DE GESTION DE TORNEOS · ${esc(current.name)}</div><div class="official-title">PLANILLA OFICIAL DE PARTIDO</div></div><div style="font-weight:900;font-size:14px">${m.fixture?`FECHA ${m.fixture}`:"PARTIDO"}</div></div></div><div class="official-meta"><label class="official-meta-box">📅<b>FECHA DEL PARTIDO</b><input id="matchDateLive" type="date" value="${esc(m.date||'')}"></label><label class="official-meta-box">🕐<b>HORA</b><input id="matchTimeLive" type="time" value="${esc(m.time||'')}"></label><label class="official-meta-box">🏟️<b>CANCHA</b><input id="matchFieldLive" type="text" value="${esc(m.field||'')}" placeholder="Cancha"></label><label class="official-meta-box">📍<b>CIUDAD</b><input id="matchCityLive" type="text" value="${esc(m.city||current.city||'')}" placeholder="Ciudad"></label><label class="official-meta-box">👨‍⚖️<b>ÁRBITRO</b><input id="matchRefereeLive" type="text" value="${esc(m.referee||'')}" placeholder="Árbitro"></label><label class="official-meta-box">🧑‍⚖️<b>ASISTENTE 1</b><input id="matchAssistant1Live" type="text" value="${esc(m.assistant1||'')}" placeholder="Asistente 1"></label><label class="official-meta-box">🧑‍⚖️<b>ASISTENTE 2</b><input id="matchAssistant2Live" type="text" value="${esc(m.assistant2||'')}" placeholder="Asistente 2"></label><div class="official-meta-box"><b>DELEGADOS</b><span style="font-size:11px">${esc(delegateInfo(m.home).name)} · ${esc(delegateInfo(m.away).name)}</span></div></div><div class="official-score"><div class="official-team home">${esc(m.home)}</div><div class="official-score-num">${m.scoreHome} - ${m.scoreAway}</div><div class="official-team away">${esc(m.away)}</div></div></div>`;
+ let actions=m.locked?officialData+`<div class="match-live"><div class="live-grid"><div class="live-team">🔴 ${esc(m.home)}</div><div class="live-score">${m.scoreHome} - ${m.scoreAway}</div><div class="live-team">⚪ ${esc(m.away)}</div></div><div class="live-actions"><button class="btn-change" id="changeBtn">🔄 CAMBIO</button><button class="btn-yellow" id="yellowBtn">🟨 AMARILLA</button><button class="btn-red" id="redBtn">🟥 ROJA</button><button class="btn-goal" id="goalBtn">⚽ GOL</button></div><div class="event-list"><b>📋 Incidencias del partido</b>${m.events.length?m.events.map(e=>`<div class="event-row"><span><span class="event-tag">${e.type}</span> — ${esc(e.team)} — ${esc(e.playerName||'')}${e.type==='Cambio'?` → ${esc(e.inName)}`:''}</span><span>${e.minute?e.minute+"'":''}</span></div>`).join(''):`<div class='note'>Aún no hay incidencias.</div>`}</div></div><div class="finish-box"><h3>🏁 Finalizar partido</h3><label>🔴 Goles ${esc(m.home)}<input id="finalHome" type="number" min="0" value="${m.scoreHome}"></label><label>⚪ Goles ${esc(m.away)}<input id="finalAway" type="number" min="0" value="${m.scoreAway}"></label><label style="display:block;margin-top:8px">📝 Observaciones del planillero<textarea id="matchObservation" rows="4" placeholder="Escribe aquí las observaciones del partido...">${esc(m.observation||'')}</textarea></label><button class="action" id="finishMatch" style="margin-top:10px">🏁 FINALIZAR Y GUARDAR RESULTADO</button><button class="action pdf-btn" id="downloadPDF" style="margin-top:8px">📄 DESCARGAR PLANILLA OFICIAL EN PDF</button><button class="action wa" id="sendPDFDelegates" style="margin-top:8px">📲 GENERAR PDF Y PREPARAR WHATSAPP A LOS DOS DELEGADOS</button><div class="delegate-send-grid"><button class="small-btn" type="button" onclick="openDelegateWhatsApp('${esc(m.home)}')">WhatsApp delegado local</button><button class="small-btn" type="button" onclick="openDelegateWhatsApp('${esc(m.away)}')">WhatsApp delegado visitante</button></div><p class="delegate-help">El prototipo descarga el PDF y abre ambos chats con el mensaje listo. El adjunto automático del PDF requiere la API oficial de WhatsApp Business.</p></div>`:`<div class="card"><h3>⚽ ${esc(m.home)} vs ${esc(m.away)}</h3><p class="note"><b>Dos formas de inscribir al jugador:</b> puedes seleccionarlo directamente desde la plantilla de inscritos o escanear su código QR. Ambas opciones quedan disponibles al mismo tiempo.</p><div class="match-sheet-grid">${teamBlock(m.home,'red')}${teamBlock(m.away,'white')}</div><button class="action" id="confirmStarters" style="margin-top:12px">✅ CONFIRMAR JUGADORES Y ABRIR EL PARTIDO</button></div>`;
+ box.innerHTML=actions;
+ const liveFields={matchDateLive:'date',matchTimeLive:'time',matchFieldLive:'field',matchCityLive:'city',matchRefereeLive:'referee',matchAssistant1Live:'assistant1',matchAssistant2Live:'assistant2'};Object.entries(liveFields).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>{m[key]=el.value;save()})});
+ document.querySelectorAll('[data-starter-index]').forEach(cb=>cb.addEventListener('change',()=>{const team=cb.dataset.starterTeam,i=+cb.dataset.starterIndex,t=m.teams[team],eligible=getEligibleRosterIndexes(team);if(!getRosterIndexesForManual(cb.dataset.starterTeam).includes(i)){cb.checked=false;alert('Este jugador no está disponible en la plantilla.');return}if(cb.checked){t.starting.push(i);if(!t.active.includes(i))t.active.push(i)}else{t.starting=t.starting.filter(x=>x!==i);t.active=t.active.filter(x=>x!==i)}renderMatchSheet()}));
+ if(document.getElementById('confirmStarters'))document.getElementById('confirmStarters').onclick=()=>{if(!m.teams[m.home].starting.length||!m.teams[m.away].starting.length)return alert('Selecciona al menos un jugador por equipo para abrir el partido.');m.teams[m.home].squad=getEligibleRosterIndexes(m.home);m.teams[m.away].squad=getEligibleRosterIndexes(m.away);m.teams[m.home].active=m.teams[m.home].starting.slice();m.teams[m.away].active=m.teams[m.away].starting.slice();m.locked=true;save();renderMatchSheet()};
+ if(document.getElementById('changeBtn'))document.getElementById('changeBtn').onclick=()=>openChangeModal(m);if(document.getElementById('yellowBtn'))document.getElementById('yellowBtn').onclick=()=>openIncidentModal(m,'Amarilla');if(document.getElementById('redBtn'))document.getElementById('redBtn').onclick=()=>openIncidentModal(m,'Roja');if(document.getElementById('goalBtn'))document.getElementById('goalBtn').onclick=()=>openGoalModal(m);
+ if(document.getElementById('finishMatch'))document.getElementById('finishMatch').onclick=()=>{m.scoreHome=+document.getElementById('finalHome').value||0;m.scoreAway=+document.getElementById('finalAway').value||0;m.observation=document.getElementById('matchObservation')?.value.trim()||'';m.finished=true;const existing=current.results.findIndex(r=>r.matchSheetId===m.id);const result={id:m.id,matchSheetId:m.id,f:m.fixture||current.currentDate||1,a:m.home,b:m.away,x:m.scoreHome,y:m.scoreAway,time:m.time||'',field:m.field||'',referee:m.referee||'',cards:m.events.filter(e=>e.type==='Amarilla'||e.type==='Roja').map(e=>({type:e.type,player:e.playerName,team:e.team})),goals:m.events.filter(e=>e.type==='Gol').map(e=>({player:e.playerName,team:e.team,minute:e.minute||''})),observation:m.observation,registeredAt:new Date().toISOString()};if(existing>=0)current.results[existing]=result;else current.results.push(result);current.players=current.players||[];m.events.filter(e=>e.type==='Gol').forEach(e=>{let row=current.players.find(p=>String(p[0]).trim()===e.playerName&&String(p[1]).trim()===e.team);if(row)row[2]=(+row[2]||0)+1;else current.players.push([e.playerName,e.team,1]);});current.cards=current.cards||[];m.events.filter(e=>e.type==='Amarilla'||e.type==='Roja').forEach(e=>current.cards.push({type:e.type,player:e.playerName,team:e.team}));save();alert(`✅ Partido finalizado y registrado: ${m.home} ${m.scoreHome} - ${m.scoreAway} ${m.away}`);refreshAll();show('planillaPartido')};
+ if(document.getElementById('downloadPDF'))document.getElementById('downloadPDF').onclick=downloadMatchPDF;if(document.getElementById('sendPDFDelegates'))document.getElementById('sendPDFDelegates').onclick=downloadAndOpenDelegateWhatsApp;
+}
+function modalShell(title,body){let old=document.getElementById("matchActionModal");if(old)old.remove();document.body.insertAdjacentHTML("beforeend",`<div class="modal show" id="matchActionModal"><div class="modal-box"><h2>${title}</h2>${body}<div class="modal-actions" style="margin-top:12px"><button class="action gray" type="button" onclick="document.getElementById('matchActionModal').remove()">Cancelar</button></div></div></div>`);return document.getElementById("matchActionModal")}
+function openChangeModal(m){let html=`<p class="note">Selecciona primero el jugador que sale. Para el reemplazo puedes elegirlo directamente desde la plantilla o escanear su código QR.</p><div class="modal-list">${[m.home,m.away].map(team=>`<h3>${team===m.home?"🔴":"⚪"} ${esc(team)} — en cancha</h3>${m.teams[team].active.map(i=>`<div class="modal-choice"><span>${i+1}. ${esc(playerName(team,i))}</span><button data-out-team="${esc(team)}" data-out-index="${i}">SALE</button></div>`).join('')}`).join('')}</div>`;const mod=modalShell('🔄 Registrar cambio',html);mod.querySelectorAll('[data-out-index]').forEach(b=>b.onclick=()=>{const team=b.dataset.outTeam,out=+b.dataset.outIndex;const avail=m.teams[team].squad.filter(i=>!m.teams[team].active.includes(i)&&getEligibleRosterIndexes(team).includes(i));const mod2=modalShell(`🔄 Reemplazo — ${esc(team)}`,`<p class="note">Sale: <b>${esc(playerName(team,out))}</b>. Elige al jugador directamente de la plantilla o escanea su escarapela QR.</p><button class="small-btn" type="button" id="scanReplacementQR">📷 ESCANEAR QR DEL QUE ENTRA</button><div class="modal-list">${avail.map(i=>`<div class="modal-choice"><span>${i+1}. ${esc(playerName(team,i))}</span>${renderPlayerQRThumb(getRoster(team).players[i])}<button data-in-index="${i}">ENTRA</button></div>`).join('')}</div>`);mod2.querySelectorAll('[data-in-index]').forEach(x=>x.onclick=()=>{const inn=+x.dataset.inIndex;m.teams[team].active=m.teams[team].active.filter(i=>i!==out);m.teams[team].active.push(inn);m.events.push({type:'Cambio',team,outIndex:out,inIndex:inn,outName:playerName(team,out),inName:playerName(team,inn),minute:''});save();mod2.remove();renderMatchSheet()});document.getElementById('scanReplacementQR')?.addEventListener('click',()=>openPlayerQRScanner(team,(inn)=>{if(!avail.includes(inn)){alert('El jugador escaneado no está disponible para entrar en este momento.');return}m.teams[team].active=m.teams[team].active.filter(i=>i!==out);m.teams[team].active.push(inn);m.events.push({type:'Cambio',team,outIndex:out,inIndex:inn,outName:playerName(team,out),inName:playerName(team,inn),minute:''});save();mod2.remove();renderMatchSheet()}))})}
+function openIncidentModal(m,type){const teams=[m.home,m.away];const body=`<p class="note">Toca el jugador al que le sacaron ${type==="Amarilla"?"🟨 amarilla":"🟥 roja"}.</p><label>Minuto <input id="incidentMinute" type="number" min="1" max="130" placeholder="Ej. 35"></label><div class="modal-list">${teams.map(team=>`<h3>${team===m.home?"🔴":"⚪"} ${esc(team)}</h3>${m.teams[team].active.map(i=>`<div class="incident-player"><span>${i+1}. ${esc(playerName(team,i))}</span><button class="incident-${type==="Amarilla"?"yellow":"red"}" data-inc-team="${esc(team)}" data-inc-index="${i}">${type==="Amarilla"?"🟨 AMARILLA":"🟥 ROJA"}</button></div>`).join("")}`).join("")}</div>`;const mod=modalShell(`${type==="Amarilla"?"🟨":"🟥"} Registrar ${type}`,body);mod.querySelectorAll("[data-inc-index]").forEach(b=>b.onclick=()=>{const team=b.dataset.incTeam,i=+b.dataset.incIndex;m.events.push({type,team,index:i,playerName:playerName(team,i),minute:document.getElementById('incidentMinute')?.value||''});if(type==='Roja')m.teams[team].active=m.teams[team].active.filter(x=>x!==i);save();mod.remove();renderMatchSheet()})}
+function openGoalModal(m){const body=`<p class="note">Selecciona el jugador que marcó el gol. El resultado se actualiza automáticamente.</p><div class="modal-list">${[m.home,m.away].map(team=>`<h3>${team===m.home?"🔴":"⚪"} ${esc(team)}</h3>${m.teams[team].active.map(i=>`<div class="incident-player"><span>${i+1}. ${esc(playerName(team,i))}</span><button class="btn-goal" data-goal-team="${esc(team)}" data-goal-index="${i}">⚽ GOL</button></div>`).join("")}`).join("")}</div><label style="display:block;margin-top:10px">Minuto <input id="goalMinute" type="number" min="1" max="130" placeholder="Ej. 35"></label>`;const mod=modalShell("⚽ Registrar gol",body);mod.querySelectorAll("[data-goal-index]").forEach(b=>b.onclick=()=>{const team=b.dataset.goalTeam,i=+b.dataset.goalIndex;m.events.push({type:"Gol",team,index:i,playerName:playerName(team,i),minute:document.getElementById("goalMinute")?.value||""});if(team===m.home)m.scoreHome++;else m.scoreAway++;save();mod.remove();renderMatchSheet()})}
+function loadMatchSheet(){const a=document.getElementById("matchSheetHome")?.value,b=document.getElementById("matchSheetAway")?.value;if(!a||!b||a===b){alert("Selecciona dos equipos diferentes.");return}const date=document.getElementById("sheetDate").value||new Date().toISOString().slice(0,10);const m={id:Date.now(),home:a,away:b,date,time:document.getElementById("sheetTime").value,field:document.getElementById("sheetField").value,city:"",referee:"",assistant1:"",assistant2:"",observation:document.getElementById("sheetObservation")?.value.trim()||"",scoreHome:0,scoreAway:0,locked:false,finished:false,events:[],teams:{[a]:{starting:[],active:[],squad:Array.from({length:18},(_,i)=>i)},[b]:{starting:[],active:[],squad:Array.from({length:18},(_,i)=>i)}}};setActiveMatch(m);renderMatchSheet()}
+function refreshAll(){refreshNames();renderDashboard();renderTable();renderResults(1);renderFixtures();fill();renderAdmin();renderScorers();renderCards();renderTournamentList();renderRosterTeamOptions();renderSavedBadges();renderMatchSheetOptions();renderMatchSheet();renderScheduleControls();renderScheduledFixtures();renderRegisteredTeams()}
+renderCardNameFields("yellow");renderCardNameFields("red");document.getElementById("loadMatchSheet")?.addEventListener("click",loadMatchSheet);document.getElementById("sheetDate")?.setAttribute("value",new Date().toISOString().slice(0,10));refreshAll();setupScheduleWindow();
+</script>
+<div id="badgePreviewModal" class="badge-preview-modal" onclick="if(event.target===this)closeBadgePreview()"><div class="badge-preview-dialog"><div class="badge-preview-head"><div><strong>👁️ Previsualización de escarapela</strong><span id="badgePreviewName"></span></div><button type="button" class="modal-close" onclick="closeBadgePreview()">✕</button></div><div class="badge-preview-body"><img id="badgePreviewImage" alt="Previsualización de escarapela"></div><div class="badge-preview-footer"><span>Medida base: <b>9 × 12 cm</b> · 1063 × 1417 px</span><button type="button" class="primary" onclick="closeBadgePreview()">Cerrar</button></div></div></div>
+</body></html>
